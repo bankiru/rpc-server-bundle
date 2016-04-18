@@ -1,0 +1,59 @@
+services:
+  rpc.controller_resolver:
+    class: Bankiru\Api\Rpc\Routing\ControllerResolver\ControllerResolver
+    arguments:
+    - "@service_container"
+    - "@rpc.controller_name_parser"
+    - "@logger"
+
+  rpc.router.loader:
+    class: Bankiru\Api\Rpc\Http\Routing\EndpointRouteLoader
+    tags:
+    - { name: routing.loader }
+
+  rpc.controller_name_parser:
+    class: Bankiru\Api\Rpc\Controller\RpcControllerNameParser
+    arguments:
+    - "@kernel"
+
+  rpc.router.resolver:
+    class: Bankiru\Api\Rpc\Routing\LoaderResolver
+
+  rpc.router.collection:
+    class: Bankiru\Api\Rpc\Routing\RouterCollection
+
+  rpc.router.loader.file:
+    abstract: true
+    class: Bankiru\Api\Rpc\Routing\Loader\FileLoader
+    calls:
+    - [ "setResolver", ["@rpc.router.resolver"]]
+
+  rpc.router.loader.yaml:
+    class: Bankiru\Api\Rpc\Routing\Loader\YamlLoader
+    parent: rpc.router.loader.file
+    arguments:
+    - "@file_locator"
+    tags:
+    - { name: rpc.route_loader }
+
+  rpc.router.loader.annotation_class:
+    class: Bankiru\Api\Rpc\Routing\Loader\AnnotationClassLoader
+    arguments:
+    - "@annotation_reader"
+    tags:
+    - { name: rpc.route_loader }
+
+  rpc.router.loader.annotation_file:
+    class: Bankiru\Api\Rpc\Routing\Loader\AnnotationFileLoader
+    parent: rpc.router.loader.file
+    arguments:
+    - "@file_locator"
+    - "@rpc.router.loader.annotation_class"
+    tags:
+    - { name: rpc.route_loader }
+
+  rpc.router.loader.annotation_directory:
+    class: Bankiru\Api\Rpc\Routing\Loader\AnnotationDirectoryLoader
+    parent: rpc.router.loader.annotation_file
+    tags:
+    - { name: rpc.route_loader }

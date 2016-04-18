@@ -1,0 +1,12 @@
+services:
+  api_doc.rpc.router_provider:
+    class: Bankiru\Api\Rpc\ApiDoc\Extractor\Provider\MethodAnnotationsProvider
+    public: false
+    arguments:
+    - "@annotation_reader"
+    - "@rpc.controller_resolver"
+    - "@rpc.router.collection"
+    - "@router"
+    tags:
+    - {name: nelmio_api_doc.extractor.annotations_provider}
+
