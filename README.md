@@ -1,3 +1,13 @@
+[![Latest Stable Version](https://poser.pugx.org/bankiru/rpc-server-bundle/v/stable)](https://packagist.org/packages/bankiru/rpc-server-bundle) 
+[![Total Downloads](https://poser.pugx.org/bankiru/rpc-server-bundle/downloads)](https://packagist.org/packages/bankiru/rpc-server-bundle) 
+[![Latest Unstable Version](https://poser.pugx.org/bankiru/rpc-server-bundle/v/unstable)](https://packagist.org/packages/bankiru/rpc-server-bundle) 
+[![License](https://poser.pugx.org/bankiru/rpc-server-bundle/license)](https://packagist.org/packages/bankiru/rpc-server-bundle)
+
+[![Build Status](https://travis-ci.org/bankiru/rpc-server-bundle.svg)](https://travis-ci.org/bankiru/rpc-server-bundle)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bankiru/rpc-server-bundle/badges/quality-score.png)](https://scrutinizer-ci.com/g/bankiru/rpc-server-bundle/)
+[![Code Coverage](https://scrutinizer-ci.com/g/bankiru/rpc-server-bundle/badges/coverage.png)](https://scrutinizer-ci.com/g/bankiru/rpc-server-bundle/)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/53b98f25-6b08-43b2-9ebe-e2d83e17b868/mini.png)](https://insight.sensiolabs.com/projects/53b98f25-6b08-43b2-9ebe-e2d83e17b868)
+
 # HTTP RPC Server bundle
 
 This bundle provides default controller realisation to handle RPC 
