@@ -17,8 +17,10 @@ class Router
      * Router constructor.
      *
      * @param LoaderResolverInterface $resolver
-     * @param array $resources
-     * @param MethodCollection|null $collection
+     * @param array                   $resources
+     * @param MethodCollection|null   $collection
+     *
+     * @throws \RuntimeException
      */
     public function __construct(
         LoaderResolverInterface $resolver,
@@ -32,7 +34,11 @@ class Router
         }
 
         foreach ($resources as $resource) {
-            $this->collection->addCollection($resolver->resolve($resource)->load($resource));
+            $loader = $resolver->resolve($resource);
+            if (false === $loader) {
+                throw new \RuntimeException(sprintf('Could not resolve loader for resource "%s"', $resource));
+            }
+            $this->collection->addCollection($loader->load($resource));
         }
     }
 

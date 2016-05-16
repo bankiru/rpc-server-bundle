@@ -1,0 +1,7 @@
+test_method:
+  method: test/method
+  controller: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\RpcImplController::testAction
+
+
+test/method2:
+  controller: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\RpcImplController::testAction

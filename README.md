@@ -47,6 +47,9 @@ rpc:
 
 This creates endpoint on URL / with generic symfony controller. Also it 
 pre-populates the methods from the `service_rpc.yml` config file
+
+`my-public-endpoint` will become a route name, so make sure it does not 
+overlap with other routes until you want it do to this.
  
 ### Method routing
 
@@ -136,3 +139,19 @@ hook your extension into given system events
     instance of `RpcResponseInterface`
  * `rpc.exception` is triggered when exception is raised during RPC call processing
  * `rpc.finish_request` is used to finalize RPC response before it is returned to HTTP controller
+
+
+## RPC Controller implementation
+
+The goal of implementing controller is to extend abstract `RpcController` passing
+`RequestInterface` and endpoint name into `getResponse` method.
+
+`RequestInterface` is an extension of `RpcRequestInterface` with extra attributes
+allowing request metadata carrying alongside the request.
+ 
+The generic solution is to convert incoming symfony `Request` instance into your own
+implementation of `RequestInterface` (i.e extract method and args from XML-RPC or JSON-RPC requests)
+and send serialized response back, transforming `RpcResponseInterface` back to your response object. 
+
+You can also automatically convert `RpcResponseInterface` into your serialized response via
+generic symfony view event processing

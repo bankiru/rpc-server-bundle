@@ -45,6 +45,26 @@ abstract class RpcController implements ContainerAwareInterface
 
     /**
      * @param RequestInterface $request
+     * @param string           $endpoint
+     *
+     * @return RpcResponseInterface
+     * @throws \Exception
+     */
+    protected function getResponse(RequestInterface $request, $endpoint)
+    {
+        $request->getAttributes()->set('_endpoint', $endpoint);
+
+        try {
+            $rpcResponse = $this->handleSingleRequest($request);
+        } catch (\Exception $e) {
+            $rpcResponse = $this->handleException($e, $request);
+        }
+
+        return $rpcResponse;
+    }
+
+    /**
+     * @param RequestInterface $request
      *
      * @return RpcResponseInterface
      *

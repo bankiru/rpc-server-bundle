@@ -8,6 +8,7 @@
 
 namespace Bankiru\Api\Rpc\Routing\ControllerResolver;
 
+use Bankiru\Api\Rpc\Exception\InvalidMethodParametersException;
 use Bankiru\Api\Rpc\Http\RequestInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -193,50 +194,73 @@ class BaseResolver implements ControllerResolverInterface
             $r = new \ReflectionFunction($controller);
         }
 
-        return $this->doGetArguments($request, $controller, $r->getParameters());
+        return $this->doGetArguments($request, $r->getParameters());
     }
 
     /**
      * @param RequestInterface       $request
-     * @param                        $controller
      * @param \ReflectionParameter[] $parameters
      *
      * @return array
      * @throws \RuntimeException
      */
-    protected function doGetArguments(RequestInterface $request, $controller, array $parameters)
+    protected function doGetArguments(RequestInterface $request, array $parameters)
     {
         $attributes = $request->getAttributes()->all();
         $arguments  = [];
+        $missing    = [];
         foreach ($parameters as $param) {
             if (is_array($request->getParameters()) && array_key_exists($param->name, $request->getParameters())) {
-                $arguments[] = $request->getParameters()[$param->name];
+                $arguments[] = $this->checkType($request->getParameters()[$param->name], $param, $request);
             } elseif (array_key_exists($param->name, $attributes)) {
-                $arguments[] = $attributes[$param->name];
+                $arguments[] = $this->checkType($attributes[$param->name], $param->name, $request);
             } elseif ($param->getClass() && $param->getClass()->isInstance($request)) {
                 $arguments[] = $request;
             } elseif ($param->isDefaultValueAvailable()) {
                 $arguments[] = $param->getDefaultValue();
             } else {
-                if (is_array($controller)) {
-                    $repr = sprintf('%s::%s()', get_class($controller[0]), $controller[1]);
-                } elseif (is_object($controller)) {
-                    $repr = get_class($controller);
-                } else {
-                    $repr = $controller;
-                }
-
-                throw new \RuntimeException(
-                    sprintf(
-                        'Controller "%s" requires that you provide a value for the "$%s" argument ' .
-                        '(because there is no default value or because there is a non optional argument after this one).',
-                        $repr,
-                        $param->name
-                    )
-                );
+                $missing[] = $param->name;
             }
         }
 
+        if (count($missing) > 0) {
+            throw InvalidMethodParametersException::missing($request->getMethod(), $missing);
+        }
+
         return $arguments;
+    }
+
+    /**
+     * Checks that argument matches parameter type
+     *
+     * @param mixed                $argument
+     * @param \ReflectionParameter $param
+     * @param RequestInterface     $request
+     *
+     * @return mixed
+     */
+    private function checkType($argument, \ReflectionParameter $param, RequestInterface $request)
+    {
+        $actual = is_object($argument) ? get_class($argument) : gettype($argument);
+        if (null !== $param->getClass()) {
+            $className = $param->getClass();
+            if (!($argument instanceof $className)) {
+                throw InvalidMethodParametersException::typeMismatch(
+                    $request->getMethod(),
+                    $param->name,
+                    $className,
+                    $actual
+                );
+            }
+        } elseif ($param->isArray() && !is_array($argument)) {
+            throw InvalidMethodParametersException::typeMismatch(
+                $request->getMethod(),
+                $param->name,
+                'array',
+                $actual
+            );
+        }
+
+        return $argument;
     }
 }

@@ -13,12 +13,10 @@ use Bankiru\Api\Rpc\RpcEvent;
 use ScayTrase\Api\Rpc\RpcResponseInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class GetExceptionResponseEvent extends RpcEvent
+class GetExceptionResponseEvent extends RpcResponseEvent
 {
     /** @var \Exception */
     private $exception;
-    /** @var  RpcResponseInterface */
-    private $response;
 
     public function __construct(HttpKernelInterface $kernel, RequestInterface $request, \Exception $exception)
     {
@@ -26,27 +24,9 @@ class GetExceptionResponseEvent extends RpcEvent
         $this->exception = $exception;
     }
 
-
     /** @return \Exception */
     public function getException()
     {
         return $this->exception;
-    }
-
-    /** @return bool */
-    public function hasResponse()
-    {
-        return null !== $this->response;
-    }
-
-    /** @return RpcResponseInterface */
-    public function getResponse()
-    {
-        return $this->response;
-    }
-
-    public function setResponse(RpcResponseInterface $response)
-    {
-        $this->response = $response;
     }
 }

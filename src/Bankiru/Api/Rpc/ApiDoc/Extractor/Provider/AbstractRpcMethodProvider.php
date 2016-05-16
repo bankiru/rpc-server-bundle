@@ -7,6 +7,7 @@
 namespace Bankiru\Api\Rpc\ApiDoc\Extractor\Provider;
 
 use Bankiru\Api\Rpc\ApiDoc\Annotation\RpcApiDoc;
+use Bankiru\Api\Rpc\Impl\Request;
 use Bankiru\Api\Rpc\Routing\ControllerResolver\ControllerResolverInterface;
 use Bankiru\Api\Rpc\Routing\Route as Method;
 use Doctrine\Common\Annotations\Reader;
@@ -55,7 +56,7 @@ abstract class AbstractRpcMethodProvider implements AnnotationsProviderInterface
 
         $views[] = 'default';
 
-        $request = new RpcRequestMock($method, null, new ParameterBag(['_controller' => $method->getController()]));
+        $request = new Request($method, [], new ParameterBag(['_controller' => $method->getController()]));
 
         /** @var array $controller */
         $controller = $this->resolver->getController($request);

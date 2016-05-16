@@ -8,20 +8,16 @@
 
 namespace Bankiru\Api\Rpc\DependencyInjection;
 
-use Bankiru\Api\Rpc\Listener\ExceptionListener;
 use Bankiru\Api\Rpc\Listener\RouterListener;
 use Bankiru\Api\Rpc\Routing\MethodCollection;
 use Bankiru\Api\Rpc\Routing\Router;
-use Bankiru\Api\Rpc\RpcEvents;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\DependencyInjection\Reference;
 
-final class RpcExtension extends Extension implements CompilerPassInterface
+final class RpcExtension extends Extension
 {
 
     /** {@inheritdoc} */
@@ -92,30 +88,5 @@ final class RpcExtension extends Extension implements CompilerPassInterface
     public function getAlias()
     {
         return 'rpc';
-    }
-
-    /** {@inheritdoc} */
-    public function process(ContainerBuilder $container)
-    {
-        if ($container->has('logger')) {
-            $container
-                ->register('rpc.exception_listener', ExceptionListener::class)
-                ->setArguments([new Reference('logger')])
-                ->addTag(
-                    'kernel.event_listener',
-                    [
-                        'event'  => RpcEvents::EXCEPTION,
-                        'method' => 'onException',
-                    ]
-                );
-        }
-
-        $loader = $container->getDefinition('rpc.router.resolver');
-
-        $taggedServices = $container->findTaggedServiceIds('rpc.route_loader');
-
-        foreach ($taggedServices as $id => $tags) {
-            $loader->addMethodCall('addLoader', [new Reference($id)]);
-        }
     }
 }

@@ -17,6 +17,13 @@ class ViewEvent extends RpcEvent
     /** @var  mixed */
     private $response;
 
+    /**
+     * ViewEvent constructor.
+     *
+     * @param HttpKernelInterface $kernel
+     * @param RequestInterface    $request
+     * @param mixed               $response
+     */
     public function __construct(HttpKernelInterface $kernel, RequestInterface $request, $response)
     {
         parent::__construct($kernel, $request);

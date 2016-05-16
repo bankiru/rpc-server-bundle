@@ -1,0 +1,21 @@
+framework:
+  test: ~
+  secret:          test
+  router:
+    resource: "%kernel.root_dir%/config/routing.yml"
+
+services:
+  logger:
+    class: Psr\Log\NullLogger
+
+rpc:
+  router:
+    endpoints:
+      test:
+        path: /test/
+        defaults:
+          _controller: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\TestController::rpcAction
+          _format: json
+        resources:
+          - '%kernel.root_dir%/config/rpc_routing.yml'
+
