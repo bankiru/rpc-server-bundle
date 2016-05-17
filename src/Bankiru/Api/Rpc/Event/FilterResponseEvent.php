@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class FilterResponseEvent extends RpcEvent
 {
-    /** @var RpcResponseInterface */
+    /** @var RpcResponseInterface|null */
     private $response;
 
     public function __construct(
@@ -30,13 +30,13 @@ class FilterResponseEvent extends RpcEvent
     }
 
 
-    /** @return RpcResponseInterface */
+    /** @return RpcResponseInterface|null */
     public function getResponse()
     {
         return $this->response;
     }
 
-    public function setResponse(RpcResponseInterface $response)
+    public function setResponse(RpcResponseInterface $response = null)
     {
         $this->response = $response;
     }

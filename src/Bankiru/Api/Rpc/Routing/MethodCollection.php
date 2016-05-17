@@ -133,4 +133,20 @@ class MethodCollection implements \IteratorAggregate, \Countable
      * @param ResourceInterface $resource
      */
     public function addResource(ResourceInterface $resource) { $this->resources[] = $resource; }
+
+    /**
+     * @param string $method
+     *
+     * @return Route|null
+     */
+    public function match($method)
+    {
+        foreach ($this->routes as $route) {
+            if ($route->getMethod() === $method) {
+                return $route;
+            }
+        }
+
+        return null;
+    }
 }

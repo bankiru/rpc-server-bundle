@@ -38,11 +38,11 @@ final class RouterListener
         }
 
         $method = $event->getRequest()->getMethod();
-        if (!$this->router->getCollection()->has($method)) {
+        $route  = $this->router->getCollection()->match($method);
+        if (null === $route) {
             return;
         }
-
-        $route = $this->router->getCollection()->get($method);
+        
         $event->getRequest()->getAttributes()->set('_route', $route);
         $event->getRequest()->getAttributes()->set('_controller', $route->getController());
         $event->getRequest()->getAttributes()->set('_with_default_context', $route->includeDefaultContext());
