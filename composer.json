@@ -15,6 +15,7 @@
     "symfony/console": "~2.7 || ~3.0",
     "symfony/config": "~2.7 || ~3.0",
     "symfony/http-kernel": "~2.7 || ~3.0",
+    "symfony/yaml": "~2.7 || ~3.0",
     "symfony/dependency-injection": "~2.7 || ~3.0",
     "doctrine/annotations": "~1.2",
     "scaytrase/rpc-common": "~1.0"
