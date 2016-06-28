@@ -24,6 +24,7 @@ class YamlLoader extends FileLoader
         'controller',
         'context',
         'default_context',
+        'inherit',
     ];
 
     /** @var  Parser */
@@ -176,11 +177,13 @@ class YamlLoader extends FileLoader
     {
         $context = array_key_exists('context', $config) ? (array)$config['context'] : [];
         $method  = array_key_exists('method', $config) ? $config['method'] : $name;
+        $inherit = array_key_exists('inherit', $config) ? $config['inherit'] : true;
         $route   = new Route(
             $method,
             $config['controller'],
             $context,
-            array_key_exists('default_context', $config) ? $config['default_context'] : true
+            array_key_exists('default_context', $config) ? $config['default_context'] : true,
+            $inherit
         );
 
         $collection->add($name, $route);

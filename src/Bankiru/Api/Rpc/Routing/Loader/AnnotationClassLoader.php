@@ -103,7 +103,8 @@ class AnnotationClassLoader implements LoaderInterface
                 $annot->getMethod(),
                 $class->getName() . '::' . $method->getName(),
                 array_merge($parents['context'], $annot->getContext()),
-                $parents['default_context'] && $annot->isDefaultContext()
+                $parents['default_context'] && $annot->isDefaultContext(),
+                $annot->isInherit()
             )
         );
     }

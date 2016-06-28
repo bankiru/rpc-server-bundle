@@ -20,12 +20,14 @@ class Router
      * @param array                   $resources
      * @param MethodCollection|null   $collection
      *
-     * @throws \RuntimeException
+     * @param array                   $context
      */
     public function __construct(
         LoaderResolverInterface $resolver,
         array $resources = [],
-        MethodCollection $collection = null)
+        MethodCollection $collection = null,
+        array $context = []
+    )
     {
         $this->collection = $collection;
 
@@ -39,6 +41,10 @@ class Router
                 throw new \RuntimeException(sprintf('Could not resolve loader for resource "%s"', $resource));
             }
             $this->collection->addCollection($loader->load($resource));
+        }
+
+        foreach ($context as $item) {
+            $this->collection->addContext($item);
         }
     }
 

@@ -42,7 +42,29 @@ class RoutingTest extends WebTestCase
         self::assertInstanceOf(MethodCollection::class, $collection);
 
         self::assertTrue($collection->has('test_method'));
-        self::assertSame('test/method', $collection->get('test_method')->getMethod());
+        $route = $collection->get('test_method');
+        self::assertSame('test/method', $route->getMethod());
+
+        self::assertContains('Default', $route->getContext());
+        self::assertContains('test', $route->getContext());
+        self::assertTrue($route->includeDefaultContext());
+
+        $route = $collection->get('test_inheritance');
+        self::assertSame('test/non-inherited', $route->getMethod());
+
+        self::assertCount(2, $route->getContext());
+        self::assertContains('Default', $route->getContext());
+        self::assertNotContains('test', $route->getContext());
+        self::assertContains('own', $route->getContext());
+        self::assertTrue($route->includeDefaultContext());
+
+        $route = $collection->get('annotation');
+        self::assertSame('annotation', $route->getMethod());
+
+        self::assertNotContains('Default', $route->getContext());
+        self::assertFalse($route->includeDefaultContext());
+        self::assertContains('annotation-non-inherit', $route->getContext());
+        self::assertCount(1, $route->getContext());
     }
 
     protected static function getKernelClass()

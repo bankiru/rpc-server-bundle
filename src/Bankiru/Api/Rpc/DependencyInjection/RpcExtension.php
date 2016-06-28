@@ -59,6 +59,7 @@ final class RpcExtension extends Extension
                     $container->getDefinition('rpc.router.resolver'),
                     $config['resources'],
                     $collection,
+                    $config['context']
                 ]
             );
 
