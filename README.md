@@ -54,6 +54,7 @@ rpc:
         defaults:
           _controller: JsonRpcBundle:JsonRpc:jsonRpc
           _format: json
+        context: Default
         resources:
         - "@MyBundle/Resources/config/service_rpc.yml"
 ```
