@@ -22,6 +22,7 @@ class Method
     public $method;
     public $context        = [];
     public $defaultContext = true;
+    public $inherit        = true;
 
     public function __construct(array $values)
     {
@@ -111,5 +112,19 @@ class Method
         $this->defaultContext = $defaultContext;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isInherit()
+    {
+        return $this->inherit;
+    }
 
+    /**
+     * @param boolean $inherit
+     */
+    public function setInherit($inherit)
+    {
+        $this->inherit = (bool)$inherit;
+    }
 }

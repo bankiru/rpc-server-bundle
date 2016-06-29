@@ -28,6 +28,19 @@ endpoint for several methods
 Endpoint is a HTTP route which process basic HTTP request, providing initial parsing
 and processing request data
 
+To enable HTTP endpoint you should enable custom endpoint router loader via the following router configuration:
+
+```yaml
+# app/config/routing.yml
+rpc:
+  resource: .
+  type: endpoint
+
+```
+
+Resource value is not important, it is ignored when loading routes as the endpoints are
+configured vua config
+
 ### Configuration
 
 Basic endpoint configuration looks like
@@ -41,6 +54,7 @@ rpc:
         defaults:
           _controller: JsonRpcBundle:JsonRpc:jsonRpc
           _format: json
+        context: Default
         resources:
         - "@MyBundle/Resources/config/service_rpc.yml"
 ```

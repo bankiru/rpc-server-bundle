@@ -13,9 +13,17 @@ rpc:
     endpoints:
       test:
         path: /test/
+        context: [Default, test]
         defaults:
           _controller: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\TestController::rpcAction
           _format: json
         resources:
           - '%kernel.root_dir%/config/rpc_routing.yml'
 
+      wScalarContext:
+        path: /test/
+        context: test
+        defaults:
+          _controller: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\TestController::rpcAction
+          _format: json
+        resources: []

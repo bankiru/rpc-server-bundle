@@ -18,6 +18,8 @@ class Route
     private $context;
     /** @var bool */
     private $defaultContext;
+    /** @var bool */
+    private $inheritContext;
 
     /**
      * Route constructor.
@@ -26,13 +28,21 @@ class Route
      * @param string $controller
      * @param array  $context
      * @param bool   $defaultContext
+     * @param bool   $inheritContext
      */
-    public function __construct($method, $controller, array $context, $defaultContext = true)
+    public function __construct(
+        $method,
+        $controller,
+        array $context,
+        $defaultContext = true,
+        $inheritContext = true
+    )
     {
         $this->method         = $method;
         $this->controller     = $controller;
         $this->context        = $context;
         $this->defaultContext = (bool)$defaultContext;
+        $this->inheritContext = (bool)$inheritContext;
     }
 
     /**
@@ -64,7 +74,7 @@ class Route
      */
     public function getContext()
     {
-        return array_unique($this->context);
+        return array_unique(array_merge($this->context, $this->includeDefaultContext() ? ['Default'] : []));
     }
 
     /**
@@ -80,7 +90,7 @@ class Route
      */
     public function includeDefaultContext()
     {
-        return $this->defaultContext;
+        return $this->defaultContext || in_array('Default', $this->context, true);
     }
 
     /**
@@ -104,8 +114,9 @@ class Route
         $this->context[] = $context;
     }
 
+    /** @return bool */
     public function inheritContext()
     {
-        return true;
+        return $this->inheritContext;
     }
 }

@@ -68,6 +68,20 @@ final class Configuration implements ConfigurationInterface
         $proto->append(
             (new VariableNodeDefinition('defaults'))
         );
+        $proto->append(
+            (new VariableNodeDefinition('context'))
+                ->beforeNormalization()
+                ->ifString()
+                ->then(
+                    function ($v) {
+                        return [$v];
+                    }
+                )
+                ->end()
+                ->defaultValue(['Default'])
+                ->info('Endpoint-wide context')
+                ->example(['Default'])
+        );
 
         $endpoints->useAttributeAsKey('name');
         $proto->addDefaultsIfNotSet();
