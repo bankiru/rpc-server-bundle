@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: batanov.pavel
- * Date: 16.02.2016
- * Time: 14:57
- */
 
 namespace Bankiru\Api\Rpc\Routing\Loader;
-
 
 use Bankiru\Api\Rpc\Routing\MethodCollection;
 use Symfony\Component\Config\Resource\DirectoryResource;

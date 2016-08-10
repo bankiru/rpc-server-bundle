@@ -1,8 +1,4 @@
 <?php
-/**
- * User: scaytrase
- * Created: 2016-02-14 12:37
- */
 
 namespace Bankiru\Api\Rpc\Controller;
 

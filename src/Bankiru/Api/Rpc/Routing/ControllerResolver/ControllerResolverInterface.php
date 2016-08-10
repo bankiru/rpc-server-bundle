@@ -1,8 +1,5 @@
 <?php
-/**
- * User: scaytrase
- * Created: 2016-03-13 15:40
- */
+
 namespace Bankiru\Api\Rpc\Routing\ControllerResolver;
 
 use Bankiru\Api\Rpc\Http\RequestInterface;

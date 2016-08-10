@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: batanov.pavel
- * Date: 16.02.2016
- * Time: 9:14
- */
 
 namespace Bankiru\Api\Rpc\Routing;
-
 
 interface LoaderInterface
 {

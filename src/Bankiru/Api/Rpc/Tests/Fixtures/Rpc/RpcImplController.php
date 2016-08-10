@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: batanov.pavel
- * Date: 16.05.2016
- * Time: 11:46
- */
 
 namespace Bankiru\Api\Rpc\Tests\Fixtures\Rpc;
 
@@ -24,7 +18,7 @@ class RpcImplController extends Controller
      *
      * @Method("annotation", inherit=false, context={"annotation-non-inherit"}, defaultContext=false)
      *
-     * @return JsonResponse
+     * @return Response
      */
     public function testAction($noDefault, $default = 'test', array $array, RpcRequestInterface $request)
     {

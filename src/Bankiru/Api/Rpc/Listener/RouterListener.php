@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: batanov.pavel
- * Date: 12.02.2016
- * Time: 13:24
- */
 
 namespace Bankiru\Api\Rpc\Listener;
 

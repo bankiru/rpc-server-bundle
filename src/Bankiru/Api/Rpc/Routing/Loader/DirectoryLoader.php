@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: batanov.pavel
- * Date: 16.02.2016
- * Time: 14:53
- */
 
 namespace Bankiru\Api\Rpc\Routing\Loader;
 

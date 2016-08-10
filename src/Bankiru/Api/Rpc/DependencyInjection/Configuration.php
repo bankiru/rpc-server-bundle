@@ -1,8 +1,4 @@
 <?php
-/**
- * User: scaytrase
- * Created: 2016-02-13 10:12
- */
 
 namespace Bankiru\Api\Rpc\DependencyInjection;
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: batanov.pavel
- * Date: 16.02.2016
- * Time: 9:23
- */
 
 namespace Bankiru\Api\Rpc\Routing\Loader;
 
@@ -46,6 +40,7 @@ abstract class FileLoader extends Loader
      *
      * @return mixed
      * @throws FileLoaderException
+     * @throws CircularReferenceLoaderException
      */
     public function import($resource, $type = null, $ignoreErrors = false, $sourceResource = null)
     {

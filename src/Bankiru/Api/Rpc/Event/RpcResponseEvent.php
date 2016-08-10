@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: batanov.pavel
- * Date: 17.05.2016
- * Time: 8:44
- */
 
 namespace Bankiru\Api\Rpc\Event;
 

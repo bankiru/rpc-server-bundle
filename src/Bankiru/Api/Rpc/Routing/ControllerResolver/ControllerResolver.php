@@ -1,8 +1,4 @@
 <?php
-/**
- * User: scaytrase
- * Created: 2016-02-14 13:08
- */
 
 namespace Bankiru\Api\Rpc\Routing\ControllerResolver;
 

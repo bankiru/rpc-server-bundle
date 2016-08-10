@@ -1,8 +1,4 @@
 <?php
-/**
- * User: scaytrase
- * Created: 2016-03-13 17:27
- */
 
 namespace Bankiru\Api\Rpc\ApiDoc\Extractor\Provider;
 
