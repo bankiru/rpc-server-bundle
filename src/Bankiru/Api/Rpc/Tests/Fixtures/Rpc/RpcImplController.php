@@ -6,7 +6,6 @@ use Bankiru\Api\Rpc\Impl\Response;
 use Bankiru\Api\Rpc\Routing\Annotation\Method;
 use ScayTrase\Api\Rpc\RpcRequestInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RpcImplController extends Controller
 {
