@@ -15,6 +15,8 @@ use Bankiru\Api\Rpc\RpcEvents;
 use ScayTrase\Api\Rpc\RpcResponseInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\ExceptionInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -30,6 +32,9 @@ abstract class RpcController implements ContainerAwareInterface
      * Sets the container.
      *
      * @param ContainerInterface|null $container A ContainerInterface instance or null
+     *
+     * @throws ServiceNotFoundException
+     * @throws ServiceCircularReferenceException
      */
     public function setContainer(ContainerInterface $container = null)
     {
@@ -112,10 +117,21 @@ abstract class RpcController implements ContainerAwareInterface
 
     /**
      * @return KernelInterface
+     * @throws \RuntimeException
      */
     private function getKernel()
     {
-        return $this->get('kernel');
+        try {
+            /** @var KernelInterface|null $kernel */
+            $kernel = $this->get('kernel');
+        } catch (ExceptionInterface $e) {
+            throw new \RuntimeException('Cannot obtain Kernel from container: ' . $e->getMessage(), $e->getCode(), $e);
+        }
+        if (null === $kernel) {
+            throw new \RuntimeException('Cannot obtain Kernel from container');
+        }
+
+        return $kernel;
     }
 
     /**
@@ -123,10 +139,10 @@ abstract class RpcController implements ContainerAwareInterface
      *
      * @return object|null
      * @throws ServiceNotFoundException
+     * @throws ServiceCircularReferenceException
      */
     protected function get($name)
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $this->container->get($name);
     }
 
@@ -137,6 +153,7 @@ abstract class RpcController implements ContainerAwareInterface
      * @param RequestInterface     $request  An error message in case the response is not a Response object
      *
      * @return RpcResponseInterface The filtered Response instance
+     * @throws \RuntimeException
      */
     protected function filterResponse(RpcResponseInterface $response, RequestInterface $request)
     {
@@ -155,6 +172,8 @@ abstract class RpcController implements ContainerAwareInterface
      * weird results.
      *
      * @param RequestInterface $request
+     *
+     * @throws \RuntimeException
      */
     protected function finishRequest(RequestInterface $request)
     {
