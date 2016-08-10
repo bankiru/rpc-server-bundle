@@ -9,6 +9,23 @@ use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
 class Kernel extends BaseKernel
 {
+    public function __construct($environment, $debug)
+    {
+        @unlink($this->getCacheDir());
+        @unlink($this->getLogDir());
+        parent::__construct($environment, $debug);
+    }
+
+    public function getCacheDir()
+    {
+        return __DIR__ . '/../../../../../../build/cache/';
+    }
+
+    public function getLogDir()
+    {
+        return __DIR__ . '/../../../../../../build/log/';
+    }
+
     /** {@inheritdoc} */
     public function registerBundles()
     {
@@ -22,15 +39,5 @@ class Kernel extends BaseKernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__ . '/config/test.yml');
-    }
-
-    public function getCacheDir()
-    {
-        return __DIR__ . '/../../../../../../build/cache/';
-    }
-
-    public function getLogDir()
-    {
-        return __DIR__ . '/../../../../../../build/log/';
     }
 }
