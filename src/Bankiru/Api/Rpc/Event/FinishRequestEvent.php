@@ -6,5 +6,4 @@ use Bankiru\Api\Rpc\RpcEvent;
 
 class FinishRequestEvent extends RpcEvent
 {
-
 }
