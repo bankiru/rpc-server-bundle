@@ -4,7 +4,7 @@ services:
     arguments:
     - "@service_container"
     - "@rpc.controller_name_parser"
-    - "@logger"
+    - "@?logger"
 
   rpc.router.loader:
     class: Bankiru\Api\Rpc\Http\Routing\EndpointRouteLoader
