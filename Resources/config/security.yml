@@ -1,0 +1,5 @@
+services:
+  rpc.listeners.security_filter:
+    class: Bankiru\Api\Rpc\Listener\SecurityListener
+    arguments:
+    - "@security.authorization_checker"
