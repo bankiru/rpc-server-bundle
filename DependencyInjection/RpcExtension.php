@@ -23,6 +23,10 @@ final class RpcExtension extends Extension
             $loader->load('nelmio.yml');
         }
 
+        if ($container->has('security.authorization_checker')) {
+            $loader->load('security.yml');
+        }
+
         $configuration = new Configuration();
         $config        = $this->processConfiguration($configuration, $configs);
 

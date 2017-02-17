@@ -8,6 +8,8 @@ services:
   logger:
     class: Psr\Log\NullLogger
 
+security: ~
+
 rpc:
   router:
     endpoints:
