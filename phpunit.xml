@@ -14,13 +14,14 @@
 
     <testsuites>
         <testsuite name="Bankiru RPC API">
-            <directory>src/Bankiru/Api</directory>
+            <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
-        <whitelist>
-            <directory>src</directory>
-        </whitelist>
+        <blacklist>
+            <directory>vendor/</directory>
+            <directory>build/</directory>
+        </blacklist>
     </filter>
 </phpunit>

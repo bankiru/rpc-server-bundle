@@ -14,6 +14,8 @@ class Route
     private $defaultContext;
     /** @var bool */
     private $inheritContext;
+    /** @var array */
+    private $options = [];
 
     /**
      * Route constructor.

@@ -18,12 +18,12 @@ class Kernel extends BaseKernel
 
     public function getCacheDir()
     {
-        return __DIR__ . '/../../../../../../build/cache/';
+        return __DIR__ . '/../../build/cache/';
     }
 
     public function getLogDir()
     {
-        return __DIR__ . '/../../../../../../build/log/';
+        return __DIR__ . '/../../build/log/';
     }
 
     /** {@inheritdoc} */
