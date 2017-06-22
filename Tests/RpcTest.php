@@ -10,44 +10,62 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RpcTest extends WebTestCase
 {
-    public function getArgumentVariants()
+    public function getValidArgumentVariants()
     {
         return [
-            'missing all'                         => [[], false],
-            'missing array'                       => [['noDefault' => 1], false],
-            'not an array'                        => [['noDefault' => 1, 'array' => 2], false],
-            'correct'                             => [['noDefault' => 1, 'array' => ['test1' => 2, 'abc']], true],
-            'correct 2'                           => [['noDefault' => 1, 'array' => ['test', 'test2']], true],
+            'correct'                             => [['noDefault' => 1, 'array' => ['test1' => 2, 'abc']]],
+            'correct 2'                           => [['noDefault' => 1, 'array' => ['test', 'test2']]],
             'correct w explicit default override' => [
                 ['default' => 'new_value', 'noDefault' => 1, 'array' => []],
-                true,
             ],
         ];
     }
 
+    public function getInvalidArgumentVariants()
+    {
+        return [
+            'missing all'   => [[]],
+            'missing array' => [['noDefault' => 1]],
+            'not an array'  => [['noDefault' => 1, 'array' => 2]],
+        ];
+    }
+
     /**
-     * @dataProvider getArgumentVariants
+     * @dataProvider getValidArgumentVariants
      *
      * @param array $args
-     * @param bool  $valid
      *
      * @throws InvalidMethodParametersException
-     * @throws \Error
      */
-    public function testController(array $args, $valid)
+    public function testValidController(array $args)
     {
         $client = self::createClient();
-        try {
-            $client->request(
-                'POST',
-                '/test/',
-                array_replace(['method' => 'test/method',], $args)
-            );
-        } catch (InvalidMethodParametersException $e) {
-            if ($valid) {
-                throw $e;
-            }
-        }
+
+        $client->request(
+            'POST',
+            '/test/',
+            array_replace(['method' => 'test/method',], $args)
+        );
+
+        self::assertTrue($client->getResponse()->isSuccessful());
+    }
+
+    /**
+     * @dataProvider getInvalidArgumentVariants
+     *
+     * @param array $args
+     *
+     * @expectedException \Bankiru\Api\Rpc\Exception\InvalidMethodParametersException
+     */
+    public function testInvalidController(array $args)
+    {
+        $client = self::createClient();
+
+        $client->request(
+            'POST',
+            '/test/',
+            array_replace(['method' => 'test/method',], $args)
+        );
     }
 
     public function getExceptionTestData()
@@ -75,7 +93,14 @@ class RpcTest extends WebTestCase
      */
     public function testException($endpoint, $args, $exception)
     {
-        $this->setExpectedExceptionRegExp($exception);
+        if (method_exists($this, 'expectException')) {
+            $this->expectException($exception);
+        } elseif (method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException($exception);
+        } else {
+            throw new \BadMethodCallException('Unsupported PHPUnit version');
+        }
+
         $client = self::createClient();
 
         $client->request(
