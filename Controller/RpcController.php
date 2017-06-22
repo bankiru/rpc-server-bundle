@@ -39,7 +39,7 @@ abstract class RpcController implements ContainerAwareInterface
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container  = $container;
-        $this->dispatcher = $container->get('event_dispatcher');
+        $this->dispatcher = $this->get('event_dispatcher');
     }
 
     /**
@@ -113,25 +113,6 @@ abstract class RpcController implements ContainerAwareInterface
         }
 
         return $this->filterResponse($response, $request);
-    }
-
-    /**
-     * @return KernelInterface
-     * @throws \RuntimeException
-     */
-    private function getKernel()
-    {
-        try {
-            /** @var KernelInterface|null $kernel */
-            $kernel = $this->get('kernel');
-        } catch (ExceptionInterface $e) {
-            throw new \RuntimeException('Cannot obtain Kernel from container: ' . $e->getMessage(), $e->getCode(), $e);
-        }
-        if (null === $kernel) {
-            throw new \RuntimeException('Cannot obtain Kernel from container');
-        }
-
-        return $kernel;
     }
 
     /**
@@ -249,5 +230,24 @@ abstract class RpcController implements ContainerAwareInterface
         } catch (\Exception $e) {
             return $response;
         }
+    }
+
+    /**
+     * @return KernelInterface
+     * @throws \RuntimeException
+     */
+    private function getKernel()
+    {
+        try {
+            /** @var KernelInterface|null $kernel */
+            $kernel = $this->get('kernel');
+        } catch (ExceptionInterface $e) {
+            throw new \RuntimeException('Cannot obtain Kernel from container: ' . $e->getMessage(), $e->getCode(), $e);
+        }
+        if (null === $kernel) {
+            throw new \RuntimeException('Cannot obtain Kernel from container');
+        }
+
+        return $kernel;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Bankiru\Api\Rpc\Routing;
 
-class RouterCollection
+final class RouterCollection
 {
     /** @var  Router[] */
     private $routers = [];

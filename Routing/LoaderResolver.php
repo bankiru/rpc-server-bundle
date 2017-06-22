@@ -2,7 +2,7 @@
 
 namespace Bankiru\Api\Rpc\Routing;
 
-class LoaderResolver implements LoaderResolverInterface
+final class LoaderResolver implements LoaderResolverInterface
 {
     /**
      * @var LoaderInterface[] An array of LoaderInterface objects

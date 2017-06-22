@@ -2,7 +2,7 @@
 
 namespace Bankiru\Api\Rpc\Tests\Fixtures;
 
-use Bankiru\Api\Rpc\RpcBundle;
+use Bankiru\Api\Rpc\BankiruRpcServerBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -32,7 +32,7 @@ class Kernel extends BaseKernel
     {
         return [
             new FrameworkBundle(),
-            new RpcBundle(),
+            new BankiruRpcServerBundle(),
             new SecurityBundle(),
         ];
     }

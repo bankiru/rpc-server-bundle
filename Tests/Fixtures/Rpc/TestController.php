@@ -3,12 +3,12 @@
 namespace Bankiru\Api\Rpc\Tests\Fixtures\Rpc;
 
 use Bankiru\Api\Rpc\Controller\RpcController;
-use Bankiru\Api\Rpc\Impl\Request as RpcRequest;
 use Bankiru\Api\Rpc\Routing\ControllerResolver\ControllerResolverInterface;
+use Bankiru\Api\Rpc\Tests\Fixtures\Impl\Request as RpcRequest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class TestController extends RpcController
+final class TestController extends RpcController
 {
     public function rpcAction(Request $request)
     {

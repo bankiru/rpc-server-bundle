@@ -31,7 +31,7 @@ class RoutingTest extends WebTestCase
         $router = $client->getContainer()->get('rpc.endpoint_router.test');
         self::assertNotNull($router);
         /** @var MethodCollection $collection */
-        $collection = $router->getCollection();
+        $collection = $router->getMethodCollection();
         self::assertNotNull($router);
         self::assertInstanceOf(MethodCollection::class, $collection);
 

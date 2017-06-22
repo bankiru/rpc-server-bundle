@@ -16,11 +16,13 @@ class RouterDebugCommand extends ContainerAwareCommand
         parent::configure();
         $this->setName('debug:rpc_router');
         $this->setDescription('Display essential info about RPC routing');
-        $this->addOption('endpoint',
-                         'p',
-                         InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                         'Filter endpoint',
-                         null);
+        $this->addOption(
+            'endpoint',
+            'p',
+            InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+            'Filter endpoint',
+            null
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -71,7 +73,7 @@ class RouterDebugCommand extends ContainerAwareCommand
 
         $collection = $this->getContainer()->get('rpc.router.collection');
         foreach ($collection->all() as $endpoint => $router) {
-            $routes[$endpoint] = $router->getCollection()->all();
+            $routes[$endpoint] = $router->getMethodCollection()->all();
         }
 
         return $routes;

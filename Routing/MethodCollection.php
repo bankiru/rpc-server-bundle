@@ -99,25 +99,13 @@ class MethodCollection implements \IteratorAggregate, \Countable
         return array_unique($this->resources);
     }
 
-    /**
-     * Gets the current RouteCollection as an Iterator that includes all routes.
-     *
-     * It implements \IteratorAggregate.
-     *
-     * @see all()
-     *
-     * @return \ArrayIterator An \ArrayIterator object for iterating over routes
-     */
+    /** {@inheritdoc} */
     public function getIterator()
     {
         return new \ArrayIterator($this->routes);
     }
 
-    /**
-     * Gets the number of Routes in this collection.
-     *
-     * @return int The number of routes
-     */
+    /** {@inheritdoc} */
     public function count()
     {
         return count($this->routes);
@@ -126,21 +114,8 @@ class MethodCollection implements \IteratorAggregate, \Countable
     /**
      * @param ResourceInterface $resource
      */
-    public function addResource(ResourceInterface $resource) { $this->resources[] = $resource; }
-
-    /**
-     * @param string $method
-     *
-     * @return Route|null
-     */
-    public function match($method)
+    public function addResource(ResourceInterface $resource)
     {
-        foreach ($this->routes as $route) {
-            if ($route->getMethod() === $method) {
-                return $route;
-            }
-        }
-
-        return null;
+        $this->resources[] = $resource;
     }
 }

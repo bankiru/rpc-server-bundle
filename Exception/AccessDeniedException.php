@@ -11,6 +11,11 @@ class AccessDeniedException extends \RuntimeException implements RpcException
      */
     public static function rolesNeeded(array $roles)
     {
-        return new static('Insufficient privileges: required one of ' . implode(', ', $roles));
+        return new static(
+            sprintf(
+                'Insufficient privileges: required one of %s role to access this method',
+                implode(', ', $roles)
+            )
+        );
     }
 }

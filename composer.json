@@ -29,8 +29,7 @@
   },
   "suggest": {
     "symfony/console": "For using debug console command",
-    "symfony/security": "For enabling role and expressions based security filters",
-    "nelmio/api-doc-bundle": "For RpcApiDoc extraction"
+    "symfony/security": "For enabling role and expressions based security filters"
   },
   "autoload": {
     "psr-4": {

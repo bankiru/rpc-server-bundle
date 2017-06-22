@@ -24,7 +24,6 @@ class AnnotationClassLoader implements LoaderInterface
         $this->reader = $reader;
     }
 
-
     /** {@inheritdoc} */
     public function load($class, $type = null)
     {
@@ -48,7 +47,7 @@ class AnnotationClassLoader implements LoaderInterface
             if (!$method->isPublic()) {
                 continue;
             }
-            
+
             foreach ($this->reader->getMethodAnnotations($method) as $annot) {
                 if ($annot instanceof Method) {
                     $this->addRoute($collection, $annot, $parents, $class, $method);
@@ -59,48 +58,6 @@ class AnnotationClassLoader implements LoaderInterface
         $collection->addPrefix($parents['method']);
 
         return $collection;
-    }
-
-    protected function getParentAnnotations(\ReflectionClass $class)
-    {
-        $parents = [
-            'method'          => '',
-            'context'         => [],
-            'default_context' => true,
-        ];
-
-        /** @var Method $annot */
-        if ($annot = $this->reader->getClassAnnotation($class, Method::class)) {
-            if (null !== $annot->getMethod()) {
-                $parents['method'] = $annot->getMethod();
-            }
-
-            if (null !== $annot->getContext()) {
-                $parents['context'] = $annot->getContext();
-            }
-        }
-
-        return $parents;
-    }
-
-    protected function addRoute(
-        MethodCollection $collection,
-        Method $annot,
-        array $parents,
-        \ReflectionClass $class,
-        \ReflectionMethod $method
-    )
-    {
-        $collection->add(
-            $annot->getMethod(),
-            new Route(
-                $annot->getMethod(),
-                $class->getName() . '::' . $method->getName(),
-                array_merge($parents['context'], $annot->getContext()),
-                $parents['default_context'] && $annot->isDefaultContext(),
-                $annot->isInherit()
-            )
-        );
     }
 
     /** {@inheritdoc} */
@@ -119,5 +76,52 @@ class AnnotationClassLoader implements LoaderInterface
     /** {@inheritdoc} */
     public function setResolver($resolver)
     {
+    }
+
+    protected function getParentAnnotations(\ReflectionClass $class)
+    {
+        $parents = [
+            'method'          => '',
+            'context'         => [],
+            'default_context' => true,
+            'options'         => [],
+        ];
+
+        /** @var Method $annot */
+        if ($annot = $this->reader->getClassAnnotation($class, Method::class)) {
+            if (null !== $annot->getMethod()) {
+                $parents['method'] = $annot->getMethod();
+            }
+
+            if (null !== $annot->getContext()) {
+                $parents['context'] = $annot->getContext();
+            }
+
+            if (null !== $annot->getOptions()) {
+                $parents['options'] = $annot->getOptions();
+            }
+        }
+
+        return $parents;
+    }
+
+    protected function addRoute(
+        MethodCollection $collection,
+        Method $annot,
+        array $parents,
+        \ReflectionClass $class,
+        \ReflectionMethod $method
+    ) {
+        $collection->add(
+            $annot->getMethod(),
+            new Route(
+                $annot->getMethod(),
+                $class->getName() . '::' . $method->getName(),
+                array_merge($parents['context'], $annot->getContext()),
+                $parents['default_context'] && $annot->isDefaultContext(),
+                $annot->isInherit(),
+                array_merge_recursive($parents['options'], $annot->getOptions())
+            )
+        );
     }
 }

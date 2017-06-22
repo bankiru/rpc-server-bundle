@@ -1,6 +1,6 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Impl;
+namespace Bankiru\Api\Rpc\Tests\Fixtures\Impl;
 
 use ScayTrase\Api\Rpc\RpcErrorInterface;
 use ScayTrase\Api\Rpc\RpcResponseInterface;

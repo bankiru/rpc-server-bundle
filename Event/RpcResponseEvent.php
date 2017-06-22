@@ -28,5 +28,7 @@ class RpcResponseEvent extends RpcEvent
     public function setResponse(RpcResponseInterface $response)
     {
         $this->response = $response;
+
+        $this->stopPropagation();
     }
 }

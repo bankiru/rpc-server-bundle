@@ -12,6 +12,16 @@ final class SecurityListener
     /** @var AuthorizationChecker */
     private $authenticator;
 
+    /**
+     * SecurityListener constructor.
+     *
+     * @param AuthorizationChecker $authenticator
+     */
+    public function __construct(AuthorizationChecker $authenticator)
+    {
+        $this->authenticator = $authenticator;
+    }
+
     public function onFilterController(FilterControllerEvent $event)
     {
         /** @var Route $route */
