@@ -52,7 +52,7 @@ rpc:
       my-public-endpoint:
         path: /
         defaults:
-          _controller: JsonRpcBundle:JsonRpc:jsonRpc
+          _controller: BankiruJsonRpcServerBundle:JsonRpc:jsonRpc
           _format: json
         context: Default
         resources:
