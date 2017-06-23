@@ -37,5 +37,6 @@ install:
     - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; fi;
 
 script:
+  - rm -rf build
   - mkdir -p build
   - vendor/bin/phpunit --colors -c phpunit.xml
