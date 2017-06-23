@@ -8,7 +8,17 @@ services:
   logger:
     class: Psr\Log\NullLogger
 
-security: ~
+security:
+  providers:
+    in_memory:
+      memory: ~
+
+  firewalls:
+    main:
+      anonymous: ~
+
+  access_control:
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
 rpc:
   router:

@@ -3,6 +3,7 @@
 namespace Bankiru\Api\Rpc\Tests\Fixtures;
 
 use Bankiru\Api\Rpc\BankiruRpcServerBundle;
+use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -31,6 +32,7 @@ class Kernel extends BaseKernel
     public function registerBundles()
     {
         return [
+            new SensioFrameworkExtraBundle(),
             new FrameworkBundle(),
             new BankiruRpcServerBundle(),
             new SecurityBundle(),

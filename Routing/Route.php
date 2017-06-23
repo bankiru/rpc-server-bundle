@@ -16,8 +16,6 @@ class Route
     private $defaultContext;
     /** @var bool */
     private $inheritContext;
-    /** @var ParameterBag */
-    private $options;
 
     /**
      * Route constructor.
@@ -27,22 +25,19 @@ class Route
      * @param array  $context
      * @param bool   $defaultContext
      * @param bool   $inheritContext
-     * @param array  $options
      */
     public function __construct(
         $method,
         $controller,
         array $context,
         $defaultContext = true,
-        $inheritContext = true,
-        array $options = []
+        $inheritContext = true
     ) {
         $this->method         = $method;
         $this->controller     = $controller;
         $this->context        = $context;
         $this->defaultContext = (bool)$defaultContext;
         $this->inheritContext = (bool)$inheritContext;
-        $this->options        = new ParameterBag($options);
     }
 
     /**
@@ -118,37 +113,5 @@ class Route
     public function inheritContext()
     {
         return $this->inheritContext;
-    }
-
-    /**
-     * @param string $key
-     * @param mixed  $default
-     *
-     * @return mixed
-     */
-    public function getOption($key, $default = null)
-    {
-        return $this->options->get($key, $default);
-    }
-
-    /**
-     * @param string $key
-     * @param mixed  $value
-     */
-    public function setOption($key, $value)
-    {
-        $this->options->set($key, $value);
-    }
-
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    public function addOptions(array $options)
-    {
-        foreach ($options as $key => $value) {
-            $this->options->set($key, $value);
-        }
     }
 }

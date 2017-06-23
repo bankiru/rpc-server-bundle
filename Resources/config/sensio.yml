@@ -1,0 +1,18 @@
+services:
+  rpc.listeners.security_listener:
+    class: Bankiru\Api\Rpc\Listener\SecurityListener
+    arguments:
+    - "@security.token_storage"
+    - "@security.authorization_checker"
+    - "@?sensio_framework_extra.security.expression_language"
+    - "@?security.authentication.trust_resolver"
+    - "@?security.role_hierarchy"
+    tags:
+    - { name: kernel.event_subscriber }
+
+  rpc.listeners.controller_listener:
+    class: Bankiru\Api\Rpc\Listener\ControllerListener
+    arguments:
+    - "@annotation_reader"
+    tags:
+    - { name: kernel.event_subscriber }

@@ -20,6 +20,9 @@
     "scaytrase/rpc-common": "~1.0"
   },
   "require-dev": {
+    "doctrine/common": "~2.2",
+    "sensio/framework-extra-bundle": "~3.0 || ~4.0@dev",
+    "symfony/expression-language": "~2.7 || ~3.0 || ~4.0",
     "symfony/console": "~2.7 || ~3.0 || ~4.0",
     "symfony/routing": "~2.7 || ~3.0 || ~4.0",
     "symfony/framework-bundle": "~2.7 || ~3.0 || ~4.0",
@@ -28,6 +31,8 @@
     "phpunit/phpunit": "^4.8.35 || ^5.4 || ^6.0"
   },
   "suggest": {
+    "sensio/framework-extra-bundle": "For controller annotations",
+    "symfony/expression-language": "For evaluating security expressions",
     "symfony/console": "For using debug console command",
     "symfony/security": "For enabling role and expressions based security filters"
   },

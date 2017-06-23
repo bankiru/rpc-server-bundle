@@ -16,3 +16,8 @@ annotation:
   resource: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\RpcImplController
   type: annotation
   context: annotation
+
+security:
+  resource: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\SecurityController
+  type: annotation
+  context: security

@@ -6,6 +6,7 @@ use Bankiru\Api\Rpc\Cache\RouterCacheWarmer;
 use Bankiru\Api\Rpc\Listener\RouterListener;
 use Bankiru\Api\Rpc\Routing\ResourceMethodCollectionLoader;
 use Bankiru\Api\Rpc\Routing\Router;
+use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -21,18 +22,16 @@ final class BankiruRpcServerExtension extends Extension
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
-        if (array_key_exists('NelmioApiDocBundle', $container->getParameter('kernel.bundles'))) {
-            $loader->load('nelmio.yml');
-        }
-
-        if ($container->has('security.authorization_checker')) {
-            $loader->load('security.yml');
-        }
+        $bundles = $container->getParameter('kernel.bundles');
 
         $configuration = new Configuration();
         $config        = $this->processConfiguration($configuration, $configs);
 
         $loader->load('rpc.yml');
+
+        if (in_array(SensioFrameworkExtraBundle::class, $bundles, true)) {
+            $loader->load('sensio.yml');
+        }
 
         $this->configureRouter($config['router'], $container);
     }
