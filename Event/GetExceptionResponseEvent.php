@@ -3,8 +3,6 @@
 namespace Bankiru\Api\Rpc\Event;
 
 use Bankiru\Api\Rpc\Http\RequestInterface;
-use Bankiru\Api\Rpc\RpcEvent;
-use ScayTrase\Api\Rpc\RpcResponseInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class GetExceptionResponseEvent extends RpcResponseEvent
@@ -22,5 +20,13 @@ class GetExceptionResponseEvent extends RpcResponseEvent
     public function getException()
     {
         return $this->exception;
+    }
+
+    /**
+     * @param \Exception $exception
+     */
+    public function setException($exception)
+    {
+        $this->exception = $exception;
     }
 }
