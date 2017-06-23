@@ -21,7 +21,7 @@
   },
   "require-dev": {
     "doctrine/common": "~2.2",
-    "sensio/framework-extra-bundle": "~3.0 || ~4.0@dev",
+    "sensio/framework-extra-bundle": "~3.0",
     "symfony/expression-language": "~2.7 || ~3.0 || ~4.0",
     "symfony/console": "~2.7 || ~3.0 || ~4.0",
     "symfony/routing": "~2.7 || ~3.0 || ~4.0",

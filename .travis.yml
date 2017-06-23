@@ -9,20 +9,20 @@ php:
   - hhvm
 
 env:
-  - SYMFONY_VERSION='2.7.*' deps='no'
-  - SYMFONY_VERSION='2.8.*' deps='no'
-  - SYMFONY_VERSION='3.2.*' deps='no'
-  - SYMFONY_VERSION='3.3.*' deps='no'
-  - SYMFONY_VERSION='~3.4@dev' deps='no'
+  - PACKAGES='symfony/symfony=2.7.*' deps='no'
+  - PACKAGES='symfony/symfony=2.8.*' deps='no'
+  - PACKAGES='symfony/symfony=3.2.*' deps='no'
+  - PACKAGES='symfony/symfony=3.3.*' deps='no'
+  - PACKAGES='symfony/symfony=~3.4@dev' deps='no'
 
 matrix:
     include:
       - php: 5.5
-        env: SYMFONY_VERSION='2.7.*' deps='low'
+        env: PACKAGES='symfony/symfony=2.7.*' deps='low'
       - php: 7.1
-        env: SYMFONY_VERSION='~4.0@dev' deps='no'
+        env: PACKAGES='symfony/symfony=~4.0@dev sensio/framework-extra-bundle=~4.0@dev' deps='no'
       - php: nightly
-        env: SYMFONY_VERSION='~4.0@dev' deps='no'
+        env: PACKAGES='symfony/symfony=~4.0@dev sensio/framework-extra-bundle=~4.0@dev' deps='no'
 
     allow_failures:
         - php: hhvm
@@ -32,7 +32,7 @@ before_install:
   - travis_retry composer self-update
 
 install:
-    - composer require --no-update symfony/symfony=${SYMFONY_VERSION}
+    - composer require --no-update ${PACKAGES}
     - if [ "$deps" = "no" ]; then composer --prefer-source install; fi;
     - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; fi;
 

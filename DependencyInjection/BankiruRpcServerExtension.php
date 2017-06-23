@@ -7,6 +7,7 @@ use Bankiru\Api\Rpc\Listener\RouterListener;
 use Bankiru\Api\Rpc\Routing\ResourceMethodCollectionLoader;
 use Bankiru\Api\Rpc\Routing\Router;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -31,6 +32,10 @@ final class BankiruRpcServerExtension extends Extension
 
         if (in_array(SensioFrameworkExtraBundle::class, $bundles, true)) {
             $loader->load('sensio.yml');
+
+            if (in_array(SecurityBundle::class, $bundles, true)) {
+                $loader->load('security.yml');
+            }
         }
 
         $this->configureRouter($config['router'], $container);
