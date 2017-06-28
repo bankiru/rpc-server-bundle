@@ -26,7 +26,7 @@
 namespace Bankiru\Api\Rpc\Routing\ControllerResolver;
 
 use Bankiru\Api\Rpc\Exception\InvalidMethodParametersException;
-use Bankiru\Api\Rpc\Http\RequestInterface;
+use Bankiru\Api\Rpc\RpcRequestInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -46,7 +46,7 @@ class BaseResolver implements ControllerResolverInterface
     }
 
     /** {@inheritdoc} */
-    public function getController(RequestInterface $request)
+    public function getController(RpcRequestInterface $request)
     {
         if (!$controller = $request->getAttributes()->get('_controller')) {
             $this->logger->warning('Unable to look for the controller as the "_controller" parameter is missing.');
@@ -95,6 +95,21 @@ class BaseResolver implements ControllerResolverInterface
         return $callable;
     }
 
+    /** {@inheritdoc} */
+    public function getArguments(RpcRequestInterface $request, $controller)
+    {
+        if (is_array($controller)) {
+            $r = new \ReflectionMethod($controller[0], $controller[1]);
+        } elseif (is_object($controller) && !$controller instanceof \Closure) {
+            $r = new \ReflectionObject($controller);
+            $r = $r->getMethod('__invoke');
+        } else {
+            $r = new \ReflectionFunction($controller);
+        }
+
+        return $this->doGetArguments($request, $r->getParameters());
+    }
+
     /**
      * Returns an instantiated controller.
      *
@@ -129,6 +144,39 @@ class BaseResolver implements ControllerResolverInterface
         }
 
         return [$this->instantiateController($class), $method];
+    }
+
+    /**
+     * @param RpcRequestInterface    $request
+     * @param \ReflectionParameter[] $parameters
+     *
+     * @return array
+     * @throws \RuntimeException
+     */
+    protected function doGetArguments(RpcRequestInterface $request, array $parameters)
+    {
+        $attributes = $request->getAttributes()->all();
+        $arguments  = [];
+        $missing    = [];
+        foreach ($parameters as $param) {
+            if (is_array($request->getParameters()) && array_key_exists($param->name, $request->getParameters())) {
+                $arguments[] = $this->checkType($request->getParameters()[$param->name], $param, $request);
+            } elseif (array_key_exists($param->name, $attributes)) {
+                $arguments[] = $this->checkType($attributes[$param->name], $param->name, $request);
+            } elseif ($param->getClass() && $param->getClass()->isInstance($request)) {
+                $arguments[] = $request;
+            } elseif ($param->isDefaultValueAvailable()) {
+                $arguments[] = $param->getDefaultValue();
+            } else {
+                $missing[] = $param->name;
+            }
+        }
+
+        if (count($missing) > 0) {
+            throw InvalidMethodParametersException::missing($request->getMethod(), $missing);
+        }
+
+        return $arguments;
     }
 
     private function getControllerError($callable)
@@ -195,64 +243,16 @@ class BaseResolver implements ControllerResolverInterface
         return $message;
     }
 
-    /** {@inheritdoc} */
-    public function getArguments(RequestInterface $request, $controller)
-    {
-        if (is_array($controller)) {
-            $r = new \ReflectionMethod($controller[0], $controller[1]);
-        } elseif (is_object($controller) && !$controller instanceof \Closure) {
-            $r = new \ReflectionObject($controller);
-            $r = $r->getMethod('__invoke');
-        } else {
-            $r = new \ReflectionFunction($controller);
-        }
-
-        return $this->doGetArguments($request, $r->getParameters());
-    }
-
-    /**
-     * @param RequestInterface       $request
-     * @param \ReflectionParameter[] $parameters
-     *
-     * @return array
-     * @throws \RuntimeException
-     */
-    protected function doGetArguments(RequestInterface $request, array $parameters)
-    {
-        $attributes = $request->getAttributes()->all();
-        $arguments  = [];
-        $missing    = [];
-        foreach ($parameters as $param) {
-            if (is_array($request->getParameters()) && array_key_exists($param->name, $request->getParameters())) {
-                $arguments[] = $this->checkType($request->getParameters()[$param->name], $param, $request);
-            } elseif (array_key_exists($param->name, $attributes)) {
-                $arguments[] = $this->checkType($attributes[$param->name], $param->name, $request);
-            } elseif ($param->getClass() && $param->getClass()->isInstance($request)) {
-                $arguments[] = $request;
-            } elseif ($param->isDefaultValueAvailable()) {
-                $arguments[] = $param->getDefaultValue();
-            } else {
-                $missing[] = $param->name;
-            }
-        }
-
-        if (count($missing) > 0) {
-            throw InvalidMethodParametersException::missing($request->getMethod(), $missing);
-        }
-
-        return $arguments;
-    }
-
     /**
      * Checks that argument matches parameter type
      *
      * @param mixed                $argument
      * @param \ReflectionParameter $param
-     * @param RequestInterface     $request
+     * @param RpcRequestInterface  $request
      *
      * @return mixed
      */
-    private function checkType($argument, \ReflectionParameter $param, RequestInterface $request)
+    private function checkType($argument, \ReflectionParameter $param, RpcRequestInterface $request)
     {
         $actual = is_object($argument) ? get_class($argument) : gettype($argument);
         if (null !== $param->getClass()) {

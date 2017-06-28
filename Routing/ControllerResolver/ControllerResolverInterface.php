@@ -2,24 +2,24 @@
 
 namespace Bankiru\Api\Rpc\Routing\ControllerResolver;
 
-use Bankiru\Api\Rpc\Http\RequestInterface;
+use Bankiru\Api\Rpc\RpcRequestInterface;
 
 interface ControllerResolverInterface
 {
     /**
-     * @param RequestInterface $request
+     * @param RpcRequestInterface $request
      *
      * @return callable|false
      * @throws \InvalidArgumentException
      */
-    public function getController(RequestInterface $request);
+    public function getController(RpcRequestInterface $request);
 
     /**
-     * @param RequestInterface $request
-     * @param                  $controller
+     * @param RpcRequestInterface $request
+     * @param                     $controller
      *
      * @return array
      * @throws \RuntimeException
      */
-    public function getArguments(RequestInterface $request, $controller);
+    public function getArguments(RpcRequestInterface $request, $controller);
 }

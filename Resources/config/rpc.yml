@@ -1,4 +1,9 @@
 services:
+  bankiru_rpc.command.router_debug_command:
+    class: Bankiru\Api\Rpc\Command\RouterDebugCommand
+    arguments:
+    - "@rpc.router.collection"
+
   rpc.controller_resolver:
     class: Bankiru\Api\Rpc\Routing\ControllerResolver\ControllerResolver
     arguments:

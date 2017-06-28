@@ -4,6 +4,7 @@ namespace Bankiru\Api\Rpc\Event;
 
 use Bankiru\Api\Rpc\Http\RequestInterface;
 use Bankiru\Api\Rpc\RpcEvent;
+use Bankiru\Api\Rpc\RpcRequestInterface;
 use ScayTrase\Api\Rpc\RpcResponseInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -14,7 +15,7 @@ class FilterResponseEvent extends RpcEvent
 
     public function __construct(
         HttpKernelInterface $kernel,
-        RequestInterface $request,
+        RpcRequestInterface $request,
         RpcResponseInterface $response
     )
     {

@@ -8,10 +8,10 @@ use Bankiru\Api\Rpc\Event\FinishRequestEvent;
 use Bankiru\Api\Rpc\Event\GetExceptionResponseEvent;
 use Bankiru\Api\Rpc\Event\GetResponseEvent;
 use Bankiru\Api\Rpc\Event\ViewEvent;
-use Bankiru\Api\Rpc\Http\RequestInterface;
 use Bankiru\Api\Rpc\Routing\ControllerResolver\ControllerResolverInterface;
 use Bankiru\Api\Rpc\Routing\Exception\MethodNotFoundException;
 use Bankiru\Api\Rpc\RpcEvents;
+use Bankiru\Api\Rpc\RpcRequestInterface;
 use ScayTrase\Api\Rpc\RpcResponseInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -43,13 +43,13 @@ abstract class RpcController implements ContainerAwareInterface
     }
 
     /**
-     * @param RequestInterface $request
-     * @param string           $endpoint
+     * @param RpcRequestInterface $request
+     * @param string              $endpoint
      *
      * @return RpcResponseInterface
      * @throws \Exception
      */
-    protected function getResponse(RequestInterface $request, $endpoint)
+    protected function getResponse(RpcRequestInterface $request, $endpoint)
     {
         $request->getAttributes()->set('_endpoint', $endpoint);
 
@@ -63,7 +63,7 @@ abstract class RpcController implements ContainerAwareInterface
     }
 
     /**
-     * @param RequestInterface $request
+     * @param RpcRequestInterface $request
      *
      * @return RpcResponseInterface
      *
@@ -72,7 +72,7 @@ abstract class RpcController implements ContainerAwareInterface
      * @throws \LogicException
      * @throws MethodNotFoundException
      */
-    protected function handleSingleRequest(RequestInterface $request)
+    protected function handleSingleRequest(RpcRequestInterface $request)
     {
         // request
         $event = new GetResponseEvent($this->getKernel(), $request);
@@ -131,12 +131,12 @@ abstract class RpcController implements ContainerAwareInterface
      * Filters a response object.
      *
      * @param RpcResponseInterface $response A Response instance
-     * @param RequestInterface     $request  An error message in case the response is not a Response object
+     * @param RpcRequestInterface  $request  An error message in case the response is not a Response object
      *
      * @return RpcResponseInterface The filtered Response instance
      * @throws \RuntimeException
      */
-    protected function filterResponse(RpcResponseInterface $response, RequestInterface $request)
+    protected function filterResponse(RpcResponseInterface $response, RpcRequestInterface $request)
     {
         $event = new FilterResponseEvent($this->getKernel(), $request, $response);
         $this->dispatcher->dispatch(RpcEvents::RESPONSE, $event);
@@ -152,11 +152,11 @@ abstract class RpcController implements ContainerAwareInterface
      * operations such as {@link RequestStack::getParentRequest()} can lead to
      * weird results.
      *
-     * @param RequestInterface $request
+     * @param RpcRequestInterface $request
      *
      * @throws \RuntimeException
      */
-    protected function finishRequest(RequestInterface $request)
+    protected function finishRequest(RpcRequestInterface $request)
     {
         $this->dispatcher->dispatch(
             RpcEvents::FINISH_REQUEST,
@@ -206,14 +206,14 @@ abstract class RpcController implements ContainerAwareInterface
     /**
      * Handles an exception by trying to convert it to a Response.
      *
-     * @param \Exception       $e       An \Exception instance
-     * @param RequestInterface $request A Request instance
+     * @param \Exception          $e       An \Exception instance
+     * @param RpcRequestInterface $request A Request instance
      *
      * @return RpcResponseInterface A Response instance
      *
      * @throws \Exception
      */
-    protected function handleException(\Exception $e, RequestInterface $request)
+    protected function handleException(\Exception $e, RpcRequestInterface $request)
     {
         $event = new GetExceptionResponseEvent($this->getKernel(), $request, $e);
         $this->dispatcher->dispatch(RpcEvents::EXCEPTION, $event);

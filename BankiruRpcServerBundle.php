@@ -7,7 +7,7 @@ use Bankiru\Api\Rpc\DependencyInjection\Compiler\RouterLoaderPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class BankiruRpcServerBundle extends Bundle
+final class BankiruRpcServerBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

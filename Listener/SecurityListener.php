@@ -28,6 +28,7 @@ namespace Bankiru\Api\Rpc\Listener;
 use Bankiru\Api\Rpc\Event\FilterControllerEvent;
 use Bankiru\Api\Rpc\Http\RequestInterface;
 use Bankiru\Api\Rpc\RpcEvents;
+use Bankiru\Api\Rpc\RpcRequestInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Security\ExpressionLanguage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
@@ -96,7 +97,7 @@ final class SecurityListener implements EventSubscriberInterface
         return [RpcEvents::CONTROLLER => ['onKernelController', -255]];
     }
 
-    private function getVariables(RequestInterface $request)
+    private function getVariables(RpcRequestInterface $request)
     {
         $token = $this->tokenStorage->getToken();
 

@@ -3,14 +3,24 @@
 namespace Bankiru\Api\Rpc\Command;
 
 use Bankiru\Api\Rpc\Routing\Route;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Bankiru\Api\Rpc\Routing\RouterCollection;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RouterDebugCommand extends ContainerAwareCommand
+class RouterDebugCommand extends Command
 {
+    /** @var RouterCollection */
+    private $routers;
+    
+    public function __construct(RouterCollection $routers)
+    {
+        parent::__construct();
+        $this->routers = $routers;
+    }
+
     protected function configure()
     {
         parent::configure();
@@ -71,8 +81,7 @@ class RouterDebugCommand extends ContainerAwareCommand
     {
         $routes = [];
 
-        $collection = $this->getContainer()->get('rpc.router.collection');
-        foreach ($collection->all() as $endpoint => $router) {
+        foreach ($this->routers->all() as $endpoint => $router) {
             $routes[$endpoint] = $router->getMethodCollection()->all();
         }
 
