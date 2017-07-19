@@ -32,7 +32,7 @@ To enable HTTP endpoint you should enable custom endpoint router loader via the 
 
 ```yaml
 # app/config/routing.yml
-rpc:
+rpc_server:
   resource: .
   type: endpoint
 

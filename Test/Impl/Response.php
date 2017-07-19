@@ -1,6 +1,6 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests\Fixtures\Impl;
+namespace Bankiru\Api\Rpc\Test\Impl;
 
 use ScayTrase\Api\Rpc\RpcErrorInterface;
 use ScayTrase\Api\Rpc\RpcResponseInterface;
@@ -14,8 +14,10 @@ final class Response implements RpcResponseInterface
      *
      * @param $body
      */
-    public function __construct($body) { $this->body = $body; }
-
+    public function __construct($body)
+    {
+        $this->body = $body;
+    }
 
     /** @return bool */
     public function isSuccessful()

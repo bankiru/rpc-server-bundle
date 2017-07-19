@@ -45,7 +45,7 @@ final class ControllerListener implements EventSubscriberInterface
     /**
      * @var Reader
      */
-    protected $reader;
+    private $reader;
 
     /**
      * Constructor.

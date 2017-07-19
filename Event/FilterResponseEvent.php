@@ -17,8 +17,7 @@ class FilterResponseEvent extends RpcEvent
         HttpKernelInterface $kernel,
         RpcRequestInterface $request,
         RpcResponseInterface $response
-    )
-    {
+    ) {
         parent::__construct($kernel, $request);
         $this->response = $response;
     }

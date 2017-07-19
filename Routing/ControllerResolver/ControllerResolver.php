@@ -48,8 +48,7 @@ final class ControllerResolver extends BaseResolver
         ContainerInterface $container,
         ControllerNameParser $parser,
         LoggerInterface $logger = null
-    )
-    {
+    ) {
         $this->container = $container;
         $this->parser    = $parser;
 

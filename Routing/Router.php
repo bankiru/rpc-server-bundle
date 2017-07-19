@@ -6,7 +6,6 @@ use Symfony\Component\Config\ConfigCacheFactory;
 use Symfony\Component\Config\ConfigCacheFactoryInterface;
 use Symfony\Component\Config\ConfigCacheInterface;
 use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\Config\Resource\ReflectionClassResource;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 
 final class Router implements MethodMatcher, WarmableInterface
@@ -30,6 +29,7 @@ final class Router implements MethodMatcher, WarmableInterface
      *
      * @param MethodCollectionLoader $loader
      * @param string                 $name
+     * @param array                  $options
      */
     public function __construct(MethodCollectionLoader $loader, $name, array $options = [])
     {

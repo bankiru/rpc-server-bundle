@@ -14,7 +14,7 @@ class RouterDebugCommand extends Command
 {
     /** @var RouterCollection */
     private $routers;
-    
+
     public function __construct(RouterCollection $routers)
     {
         parent::__construct();

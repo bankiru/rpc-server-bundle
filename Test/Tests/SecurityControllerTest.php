@@ -1,8 +1,8 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests;
+namespace Bankiru\Api\Rpc\Test\Tests;
 
-use Bankiru\Api\Rpc\Tests\Fixtures\Kernel;
+use Bankiru\Api\Rpc\Test\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class SecurityControllerTest extends WebTestCase

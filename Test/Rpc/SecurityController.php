@@ -1,9 +1,9 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests\Fixtures\Rpc;
+namespace Bankiru\Api\Rpc\Test\Rpc;
 
 use Bankiru\Api\Rpc\Routing\Annotation\Method;
-use Bankiru\Api\Rpc\Tests\Fixtures\Impl\Response;
+use Bankiru\Api\Rpc\Test\Impl\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

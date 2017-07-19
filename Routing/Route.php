@@ -2,8 +2,6 @@
 
 namespace Bankiru\Api\Rpc\Routing;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
-
 class Route
 {
     /** @var  string */

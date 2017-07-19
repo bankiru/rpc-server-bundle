@@ -25,8 +25,6 @@ abstract class RpcController implements ContainerAwareInterface
 {
     /** @var  ContainerInterface */
     private $container;
-    /** @var  EventDispatcherInterface */
-    private $dispatcher;
 
     /**
      * Sets the container.
@@ -39,7 +37,6 @@ abstract class RpcController implements ContainerAwareInterface
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container  = $container;
-        $this->dispatcher = $this->get('event_dispatcher');
     }
 
     /**
@@ -76,7 +73,7 @@ abstract class RpcController implements ContainerAwareInterface
     {
         // request
         $event = new GetResponseEvent($this->getKernel(), $request);
-        $this->dispatcher->dispatch(RpcEvents::REQUEST, $event);
+        $this->getDispatcher()->dispatch(RpcEvents::REQUEST, $event);
         if ($event->hasResponse()) {
             return $this->filterResponse($event->getResponse(), $request);
         }
@@ -85,7 +82,7 @@ abstract class RpcController implements ContainerAwareInterface
             throw new MethodNotFoundException($request->getMethod());
         }
         $event = new FilterControllerEvent($this->getKernel(), $request, $controller);
-        $this->dispatcher->dispatch(RpcEvents::CONTROLLER, $event);
+        $this->getDispatcher()->dispatch(RpcEvents::CONTROLLER, $event);
         $controller = $event->getController();
         // controller arguments
         $arguments = $this->getResolver()->getArguments($request, $controller);
@@ -94,7 +91,7 @@ abstract class RpcController implements ContainerAwareInterface
         // view
         if (!$response instanceof RpcResponseInterface) {
             $event = new ViewEvent($this->getKernel(), $request, $response);
-            $this->dispatcher->dispatch(RpcEvents::VIEW, $event);
+            $this->getDispatcher()->dispatch(RpcEvents::VIEW, $event);
             if ($event->hasResponse()) {
                 $response = $event->getResponse();
             }
@@ -139,7 +136,7 @@ abstract class RpcController implements ContainerAwareInterface
     protected function filterResponse(RpcResponseInterface $response, RpcRequestInterface $request)
     {
         $event = new FilterResponseEvent($this->getKernel(), $request, $response);
-        $this->dispatcher->dispatch(RpcEvents::RESPONSE, $event);
+        $this->getDispatcher()->dispatch(RpcEvents::RESPONSE, $event);
         $this->finishRequest($request);
 
         return $event->getResponse();
@@ -158,7 +155,7 @@ abstract class RpcController implements ContainerAwareInterface
      */
     protected function finishRequest(RpcRequestInterface $request)
     {
-        $this->dispatcher->dispatch(
+        $this->getDispatcher()->dispatch(
             RpcEvents::FINISH_REQUEST,
             new FinishRequestEvent($this->getKernel(), $request)
         );
@@ -216,7 +213,7 @@ abstract class RpcController implements ContainerAwareInterface
     protected function handleException(\Exception $e, RpcRequestInterface $request)
     {
         $event = new GetExceptionResponseEvent($this->getKernel(), $request, $e);
-        $this->dispatcher->dispatch(RpcEvents::EXCEPTION, $event);
+        $this->getDispatcher()->dispatch(RpcEvents::EXCEPTION, $event);
         // a listener might have replaced the exception
         $e = $event->getException();
         if (!$event->hasResponse()) {
@@ -230,6 +227,14 @@ abstract class RpcController implements ContainerAwareInterface
         } catch (\Exception $e) {
             return $response;
         }
+    }
+
+    /**
+     * @return EventDispatcherInterface
+     */
+    protected function getDispatcher()
+    {
+        return $this->get('event_dispatcher');
     }
 
     /**

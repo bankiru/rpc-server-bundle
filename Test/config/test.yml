@@ -27,7 +27,7 @@ rpc_server:
         path: /test/
         context: [Default, test]
         defaults:
-          _controller: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\TestController::rpcAction
+          _controller: Bankiru\Api\Rpc\Test\Rpc\TestController::rpcAction
           _format: json
         resources:
           - '%kernel.root_dir%/config/rpc_routing.yml'
@@ -36,6 +36,6 @@ rpc_server:
         path: /test/
         context: test
         defaults:
-          _controller: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\TestController::rpcAction
+          _controller: Bankiru\Api\Rpc\Test\Rpc\TestController::rpcAction
           _format: json
         resources: []

@@ -39,10 +39,12 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
                 \RecursiveIteratorIterator::LEAVES_ONLY
             )
         );
-        usort($files,
+        usort(
+            $files,
             function (\SplFileInfo $a, \SplFileInfo $b) {
                 return (string)$a > (string)$b ? 1 : -1;
-            });
+            }
+        );
 
         foreach ($files as $file) {
             if (!$file->isFile() || '.php' !== substr($file->getFilename(), -4)) {

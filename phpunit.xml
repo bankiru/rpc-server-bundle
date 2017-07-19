@@ -9,11 +9,13 @@
 >
     <php>
         <ini name="error_reporting" value="-1"/>
-        <server name="LOCAL_STORAGE" value="var/cache/test/"/>
     </php>
 
     <testsuites>
-        <testsuite name="Bankiru RPC API">
+        <testsuite name="integration">
+            <directory>./Test/Tests/</directory>
+        </testsuite>
+        <testsuite name="unit">
             <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
@@ -22,6 +24,11 @@
         <blacklist>
             <directory>vendor/</directory>
             <directory>build/</directory>
+            <directory>Test/</directory>
+            <directory>Tests/</directory>
         </blacklist>
+        <whitelist>
+            <directory>./</directory>
+        </whitelist>
     </filter>
 </phpunit>

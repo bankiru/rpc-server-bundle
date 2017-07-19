@@ -1,10 +1,10 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests;
+namespace Bankiru\Api\Rpc\Test\Tests;
 
 use Bankiru\Api\Rpc\Exception\InvalidMethodParametersException;
 use Bankiru\Api\Rpc\Routing\Exception\MethodNotFoundException;
-use Bankiru\Api\Rpc\Tests\Fixtures\Kernel;
+use Bankiru\Api\Rpc\Test\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

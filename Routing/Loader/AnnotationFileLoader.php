@@ -23,7 +23,6 @@
  *
  */
 
-
 namespace Bankiru\Api\Rpc\Routing\Loader;
 
 use Bankiru\Api\Rpc\Routing\MethodCollection;
@@ -90,6 +89,16 @@ class AnnotationFileLoader extends FileLoader
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function supports($resource, $type = null)
+    {
+        return is_string($resource) &&
+               'php' === pathinfo($resource, PATHINFO_EXTENSION) &&
+               (!$type || 'annotation' === $type);
+    }
+
+    /**
      * Returns the full class name for the first class in the file.
      *
      * @param string $file A PHP file path
@@ -130,15 +139,5 @@ class AnnotationFileLoader extends FileLoader
         }
 
         return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports($resource, $type = null)
-    {
-        return is_string($resource) &&
-               'php' === pathinfo($resource, PATHINFO_EXTENSION) &&
-               (!$type || 'annotation' === $type);
     }
 }

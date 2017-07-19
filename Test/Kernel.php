@@ -1,6 +1,6 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests\Fixtures;
+namespace Bankiru\Api\Rpc\Test;
 
 use Bankiru\Api\Rpc\BankiruRpcServerBundle;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;

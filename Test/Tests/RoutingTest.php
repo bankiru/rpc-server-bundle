@@ -1,11 +1,11 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests;
+namespace Bankiru\Api\Rpc\Test\Tests;
 
 use Bankiru\Api\Rpc\Routing\MethodCollection;
 use Bankiru\Api\Rpc\Routing\Router;
-use Bankiru\Api\Rpc\Tests\Fixtures\Kernel;
-use Bankiru\Api\Rpc\Tests\Fixtures\Rpc\TestController;
+use Bankiru\Api\Rpc\Test\Kernel;
+use Bankiru\Api\Rpc\Test\Rpc\TestController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\RequestContext;
 

@@ -22,6 +22,6 @@ final class ProxyController
 
     public function handle(RpcRequestInterface $request)
     {
-        return $this->client->invoke($request);
+        return $this->client->invoke($request)->getResponse($request);
     }
 }

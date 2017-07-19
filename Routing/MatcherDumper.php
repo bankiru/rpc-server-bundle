@@ -28,7 +28,7 @@ final class {$options['class']} implements MethodMatcher
 CONTENT;
 
         foreach ($collection->all() as $name => $method) {
-            $ret = var_export(AttributesHelper::getAttributes($method, $name), true);
+            $ret     = var_export(AttributesHelper::getAttributes($method, $name), true);
             $content .= PHP_EOL .
                         <<<CONTENT
             '{$method->getMethod()}' => {$ret},

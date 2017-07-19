@@ -1,6 +1,6 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests\Fixtures\Impl;
+namespace Bankiru\Api\Rpc\Test\Impl;
 
 use Bankiru\Api\Rpc\RpcRequestInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
