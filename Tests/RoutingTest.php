@@ -28,7 +28,7 @@ class RoutingTest extends WebTestCase
     {
         $client = self::createClient();
         /** @var Router $router */
-        $router = $client->getContainer()->get('rpc.endpoint_router.test');
+        $router = $client->getContainer()->get('rpc_server.endpoint_router.test');
         self::assertNotNull($router);
         /** @var MethodCollection $collection */
         $collection = $router->getMethodCollection();

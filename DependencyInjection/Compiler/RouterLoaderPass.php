@@ -15,7 +15,7 @@ class RouterLoaderPass implements CompilerPassInterface
     {
         if ($container->has('logger')) {
             $container
-                ->register('rpc.exception_listener', ExceptionListener::class)
+                ->register('rpc_server.exception_listener', ExceptionListener::class)
                 ->setArguments([new Reference('logger')])
                 ->addTag(
                     'kernel.event_listener',
@@ -26,7 +26,7 @@ class RouterLoaderPass implements CompilerPassInterface
                 );
         }
 
-        $loader = $container->getDefinition('rpc.router.resolver');
+        $loader = $container->getDefinition('rpc_server.router.resolver');
 
         $taggedServices = $container->findTaggedServiceIds('rpc.route_loader');
 

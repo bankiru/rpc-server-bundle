@@ -10,7 +10,7 @@
 
 # HTTP RPC Server bundle
 
-This bundle provides default controller realisation to handle RPC 
+This bundle provides default controller realization to handle RPC 
 requests which come to the application via HTTP requests
  
 ## Implementations
@@ -46,7 +46,7 @@ configured vua config
 Basic endpoint configuration looks like
 
 ```yaml
-rpc:
+rpc_server:
   router:
     endpoints:
       my-public-endpoint:
@@ -79,7 +79,7 @@ my_bundle:
   type: annotation
 ```
 
-Different resource types are supported. Built-in are
+Different resource types are supported
 
 #### Annotation 
 

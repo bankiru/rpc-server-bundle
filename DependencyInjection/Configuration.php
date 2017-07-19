@@ -19,7 +19,7 @@ final class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $builder = new TreeBuilder();
-        $root    = $builder->root('rpc');
+        $root    = $builder->root('rpc_server');
         $this->configureRouter($root->children()->arrayNode('router'));
 
         return $builder;

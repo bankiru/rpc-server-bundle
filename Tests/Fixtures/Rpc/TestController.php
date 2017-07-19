@@ -27,6 +27,6 @@ final class TestController extends RpcController
      */
     protected function getResolver()
     {
-        return $this->get('rpc.controller_resolver');
+        return $this->get('rpc_server.controller_resolver');
     }
 }

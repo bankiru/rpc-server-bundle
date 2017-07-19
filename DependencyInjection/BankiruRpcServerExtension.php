@@ -43,7 +43,7 @@ final class BankiruRpcServerExtension extends Extension
 
     public function getAlias()
     {
-        return 'rpc';
+        return 'rpc_server';
     }
 
     /**
@@ -53,11 +53,11 @@ final class BankiruRpcServerExtension extends Extension
     private function configureRouter(array $router, ContainerBuilder $container)
     {
         $endpoints        = $router['endpoints'];
-        $endpointLoader   = $container->getDefinition('rpc.router.loader');
-        $routerCollection = $container->getDefinition('rpc.router.collection');
+        $endpointLoader   = $container->getDefinition('rpc_server.router.loader');
+        $routerCollection = $container->getDefinition('rpc_server.router.collection');
 
         foreach ($endpoints as $name => $config) {
-            $routerId = sprintf('rpc.endpoint_router.%s', $name);
+            $routerId = sprintf('rpc_server.endpoint_router.%s', $name);
 
             $container->register($routerId, Router::class)
                       ->setArguments(
@@ -65,7 +65,7 @@ final class BankiruRpcServerExtension extends Extension
                               new Definition(
                                   ResourceMethodCollectionLoader::class,
                                   [
-                                      new Reference('rpc.router.resolver'),
+                                      new Reference('rpc_server.router.resolver'),
                                       $config['resources'],
                                       $config['context'],
                                   ]
@@ -79,7 +79,7 @@ final class BankiruRpcServerExtension extends Extension
                       ->setPublic(false)
                       ->addTag('rpc_router');
 
-            $container->register(sprintf('rpc.router_warmer.%s', $name), RouterCacheWarmer::class)
+            $container->register(sprintf('rpc_server.router_warmer.%s', $name), RouterCacheWarmer::class)
                       ->setPublic(false)
                       ->setArguments(
                           [
@@ -88,7 +88,7 @@ final class BankiruRpcServerExtension extends Extension
                       )
                       ->addTag('kernel.cache_warmer');
 
-            $container->register('rpc.router_listener.' . $name, RouterListener::class)
+            $container->register('rpc_server.router_listener.' . $name, RouterListener::class)
                       ->setArguments([$name, new Reference($routerId)])
                       ->addTag('kernel.event_listener', ['event' => 'rpc.request', 'method' => 'onRequest']);
 

@@ -1,5 +1,5 @@
 services:
-  rpc.listeners.security_listener:
+  rpc_server.listeners.security_listener:
     class: Bankiru\Api\Rpc\Listener\SecurityListener
     arguments:
     - "@security.token_storage"

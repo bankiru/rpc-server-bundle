@@ -9,7 +9,7 @@ use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
-class Kernel extends BaseKernel
+final class Kernel extends BaseKernel
 {
     public function __construct($environment, $debug)
     {
@@ -20,12 +20,12 @@ class Kernel extends BaseKernel
 
     public function getCacheDir()
     {
-        return __DIR__ . '/../../build/cache/';
+        return __DIR__ . '/../../build/' . $this->getName() . '/cache';
     }
 
     public function getLogDir()
     {
-        return __DIR__ . '/../../build/log/';
+        return __DIR__ . '/../../build/' . $this->getName() . '/log';
     }
 
     /** {@inheritdoc} */
@@ -37,6 +37,11 @@ class Kernel extends BaseKernel
             new BankiruRpcServerBundle(),
             new SecurityBundle(),
         ];
+    }
+
+    public function getName()
+    {
+        return 'rpc_test';
     }
 
     /** {@inheritdoc} */

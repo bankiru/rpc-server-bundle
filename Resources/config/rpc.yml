@@ -1,64 +1,64 @@
 services:
-  bankiru_rpc.command.router_debug_command:
+  rpc_server.command.router_debug_command:
     class: Bankiru\Api\Rpc\Command\RouterDebugCommand
     arguments:
-    - "@rpc.router.collection"
+    - "@rpc_server.router.collection"
 
-  rpc.controller_resolver:
+  rpc_server.controller_resolver:
     class: Bankiru\Api\Rpc\Routing\ControllerResolver\ControllerResolver
     arguments:
     - "@service_container"
-    - "@rpc.controller_name_parser"
+    - "@rpc_server.controller_name_parser"
     - "@?logger"
 
-  rpc.router.loader:
+  rpc_server.router.loader:
     class: Bankiru\Api\Rpc\Http\Routing\EndpointRouteLoader
     tags:
     - { name: routing.loader }
 
-  rpc.controller_name_parser:
+  rpc_server.controller_name_parser:
     class: Bankiru\Api\Rpc\Controller\RpcControllerNameParser
     arguments:
     - "@kernel"
 
-  rpc.router.resolver:
+  rpc_server.router.resolver:
     class: Bankiru\Api\Rpc\Routing\LoaderResolver
 
-  rpc.router.collection:
+  rpc_server.router.collection:
     class: Bankiru\Api\Rpc\Routing\RouterCollection
 
-  rpc.router.loader.file:
+  rpc_server.router.loader.file:
     abstract: true
     class: Bankiru\Api\Rpc\Routing\Loader\FileLoader
     calls:
-    - [ "setResolver", ["@rpc.router.resolver"]]
+    - [ "setResolver", ["@rpc_server.router.resolver"]]
 
-  rpc.router.loader.yaml:
+  rpc_server.router.loader.yaml:
     class: Bankiru\Api\Rpc\Routing\Loader\YamlLoader
-    parent: rpc.router.loader.file
+    parent: rpc_server.router.loader.file
     arguments:
     - "@file_locator"
     tags:
     - { name: rpc.route_loader }
 
-  rpc.router.loader.annotation_class:
+  rpc_server.router.loader.annotation_class:
     class: Bankiru\Api\Rpc\Routing\Loader\AnnotationClassLoader
     arguments:
     - "@annotation_reader"
     tags:
     - { name: rpc.route_loader }
 
-  rpc.router.loader.annotation_file:
+  rpc_server.router.loader.annotation_file:
     class: Bankiru\Api\Rpc\Routing\Loader\AnnotationFileLoader
-    parent: rpc.router.loader.file
+    parent: rpc_server.router.loader.file
     arguments:
     - "@file_locator"
-    - "@rpc.router.loader.annotation_class"
+    - "@rpc_server.router.loader.annotation_class"
     tags:
     - { name: rpc.route_loader }
 
-  rpc.router.loader.annotation_directory:
+  rpc_server.router.loader.annotation_directory:
     class: Bankiru\Api\Rpc\Routing\Loader\AnnotationDirectoryLoader
-    parent: rpc.router.loader.annotation_file
+    parent: rpc_server.router.loader.annotation_file
     tags:
     - { name: rpc.route_loader }

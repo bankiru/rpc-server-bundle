@@ -20,7 +20,7 @@ security:
   access_control:
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
-rpc:
+rpc_server:
   router:
     endpoints:
       test:

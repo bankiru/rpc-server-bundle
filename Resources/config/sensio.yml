@@ -1,5 +1,5 @@
 services:
-  rpc.listeners.controller_listener:
+  rpc_server.listeners.controller_listener:
     class: Bankiru\Api\Rpc\Listener\ControllerListener
     arguments:
     - "@annotation_reader"

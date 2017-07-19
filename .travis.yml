@@ -6,35 +6,43 @@ php:
   - 7
   - 7.1
   - nightly
-  - hhvm
 
 env:
   - PACKAGES='symfony/symfony=2.7.*' deps='no'
   - PACKAGES='symfony/symfony=2.8.*' deps='no'
   - PACKAGES='symfony/symfony=3.2.*' deps='no'
   - PACKAGES='symfony/symfony=3.3.*' deps='no'
-  - PACKAGES='symfony/symfony=~3.4@dev' deps='no'
+  - PACKAGES='symfony/symfony=~3.4' STABILITY=dev deps='no'
+
+## Run on container environment
+sudo: false
+
+## Cache composer bits
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 matrix:
-    include:
-      - php: 5.5
-        env: PACKAGES='symfony/symfony=2.7.*' deps='low'
-      - php: 7.1
-        env: PACKAGES='symfony/symfony=~4.0@dev sensio/framework-extra-bundle=~4.0@dev' deps='no'
-      - php: nightly
-        env: PACKAGES='symfony/symfony=~4.0@dev sensio/framework-extra-bundle=~4.0@dev' deps='no'
+  include:
+    - php: 5.5
+      env: PACKAGES='symfony/symfony=2.7.*' deps='low'
+    - php: 7.1
+      env: PACKAGES='symfony/symfony=~4.0' STABILITY=dev deps='no'
+    - php: nightly
+      env: PACKAGES='symfony/symfony=~4.0' STABILITY=dev deps='no'
 
-    allow_failures:
-        - php: hhvm
-        - php: nightly
+  allow_failures:
+    - php: nightly
+    - env: PACKAGES='symfony/symfony=~4.0@dev' STABILITY=dev
 
 before_install:
   - travis_retry composer self-update
 
 install:
-    - composer require --no-update ${PACKAGES}
-    - if [ "$deps" = "no" ]; then composer --prefer-source install; fi;
-    - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; fi;
+  - composer require --no-update ${PACKAGES}
+  - if [ "$STABILITY" = "dev" ]; then composer config minimum-stability dev; fi;
+  - if [ "$deps" = "no" ]; then composer --prefer-source install; fi;
+  - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; fi;
 
 script:
   - rm -rf build
