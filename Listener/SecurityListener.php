@@ -36,6 +36,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
+use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
  * SecurityListener handles security restrictions on controllers.
@@ -113,7 +114,7 @@ final class SecurityListener implements EventSubscriberInterface
             'object'         => $request,
             'request'        => $request,
             'roles'          => array_map(
-                function ($role) {
+                function (RoleInterface $role) {
                     return $role->getRole();
                 },
                 $roles
