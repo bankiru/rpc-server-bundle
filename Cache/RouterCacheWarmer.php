@@ -3,7 +3,6 @@
 namespace Bankiru\Api\Rpc\Cache;
 
 use Bankiru\Api\Rpc\Routing\MethodMatcher;
-use Bankiru\Api\Rpc\Routing\Router;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 
@@ -12,7 +11,7 @@ final class RouterCacheWarmer implements CacheWarmerInterface
     const CACHE_DIR = 'rpc';
 
     /**
-     * @var Router
+     * @var MethodMatcher
      */
     private $router;
 

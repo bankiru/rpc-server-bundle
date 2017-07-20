@@ -77,10 +77,12 @@ final class ControllerListener implements EventSubscriberInterface
         }
 
         $className =
-            class_exists('Doctrine\Common\Util\ClassUtils') ? ClassUtils::getClass($controller[0]) :
-                get_class($controller[0]);
-        $object    = new \ReflectionClass($className);
-        $method    = $object->getMethod($controller[1]);
+            class_exists('Doctrine\Common\Util\ClassUtils')
+                ? ClassUtils::getClass($controller[0])
+                : get_class($controller[0]);
+
+        $object = new \ReflectionClass($className);
+        $method = $object->getMethod($controller[1]);
 
         $classConfigurations  = $this->getConfigurations($this->reader->getClassAnnotations($object));
         $methodConfigurations = $this->getConfigurations($this->reader->getMethodAnnotations($method));

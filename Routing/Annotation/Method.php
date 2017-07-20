@@ -17,7 +17,6 @@ class Method
     public $context        = [];
     public $defaultContext = true;
     public $inherit        = true;
-    public $options        = [];
 
     public function __construct(array $values)
     {
@@ -121,21 +120,5 @@ class Method
     public function setInherit($inherit)
     {
         $this->inherit = (bool)$inherit;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * @param array $options
-     */
-    public function setOptions(array $options = null)
-    {
-        $this->options = $options;
     }
 }

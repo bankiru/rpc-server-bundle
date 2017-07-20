@@ -10,12 +10,7 @@ final class SecurityControllerTest extends WebTestCase
     public function testPublicAction()
     {
         $client = self::createClient();
-
-        $client->request(
-            'POST',
-            '/test/',
-            ['method' => 'security/public']
-        );
+        $client->request('POST', '/test/', ['method' => 'security/public']);
 
         self::assertTrue($client->getResponse()->isSuccessful());
     }
@@ -26,15 +21,7 @@ final class SecurityControllerTest extends WebTestCase
      */
     public function testPrivateAction()
     {
-        $client = self::createClient();
-
-        $client->request(
-            'POST',
-            '/test/',
-            ['method' => 'security/private']
-        );
-
-        self::assertTrue($client->getResponse()->isSuccessful());
+        self::createClient()->request('POST', '/test/', ['method' => 'security/private']);
     }
 
     protected static function getKernelClass()

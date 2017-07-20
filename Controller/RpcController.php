@@ -36,7 +36,7 @@ abstract class RpcController implements ContainerAwareInterface
      */
     public function setContainer(ContainerInterface $container = null)
     {
-        $this->container  = $container;
+        $this->container = $container;
     }
 
     /**

@@ -84,7 +84,6 @@ class AnnotationClassLoader implements LoaderInterface
             'method'          => '',
             'context'         => [],
             'default_context' => true,
-            'options'         => [],
         ];
 
         /** @var Method $annot */
@@ -95,10 +94,6 @@ class AnnotationClassLoader implements LoaderInterface
 
             if (null !== $annot->getContext()) {
                 $parents['context'] = $annot->getContext();
-            }
-
-            if (null !== $annot->getOptions()) {
-                $parents['options'] = $annot->getOptions();
             }
         }
 
@@ -119,8 +114,7 @@ class AnnotationClassLoader implements LoaderInterface
                 $class->getName() . '::' . $method->getName(),
                 array_merge($parents['context'], $annot->getContext()),
                 $parents['default_context'] && $annot->isDefaultContext(),
-                $annot->isInherit(),
-                array_merge_recursive($parents['options'], $annot->getOptions())
+                $annot->isInherit()
             )
         );
     }

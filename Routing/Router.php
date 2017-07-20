@@ -82,9 +82,7 @@ final class Router implements MethodMatcher, WarmableInterface
      */
     public function setOption($key, $value)
     {
-        if (!array_key_exists($key, $this->options)) {
-            throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
-        }
+        $this->validateOption($key);
 
         $this->options[$key] = $value;
     }
@@ -137,7 +135,7 @@ final class Router implements MethodMatcher, WarmableInterface
             }
         }
 
-        if ($invalid) {
+        if (!empty($invalid)) {
             throw new \InvalidArgumentException(
                 sprintf('The Router does not support the following options: "%s".', implode('", "', $invalid))
             );
@@ -196,5 +194,15 @@ final class Router implements MethodMatcher, WarmableInterface
         }
 
         return $this->configCacheFactory;
+    }
+
+    /**
+     * @param $key
+     */
+    private function validateOption($key)
+    {
+        if (!array_key_exists($key, $this->options)) {
+            throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
+        }
     }
 }

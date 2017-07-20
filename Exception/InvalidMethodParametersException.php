@@ -5,7 +5,7 @@ namespace Bankiru\Api\Rpc\Exception;
 class InvalidMethodParametersException extends \InvalidArgumentException implements RpcException
 {
     /**
-     * @param string $method
+     * @param string   $method
      * @param string[] $missing
      *
      * @return static

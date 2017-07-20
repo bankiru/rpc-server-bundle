@@ -40,12 +40,7 @@ class RpcTest extends WebTestCase
     public function testValidController(array $args)
     {
         $client = self::createClient();
-
-        $client->request(
-            'POST',
-            '/test/',
-            array_replace(['method' => 'test/method',], $args)
-        );
+        $client->request('POST', '/test/', array_replace(['method' => 'test/method'], $args));
 
         self::assertTrue($client->getResponse()->isSuccessful());
     }
@@ -60,12 +55,7 @@ class RpcTest extends WebTestCase
     public function testInvalidController(array $args)
     {
         $client = self::createClient();
-
-        $client->request(
-            'POST',
-            '/test/',
-            array_replace(['method' => 'test/method',], $args)
-        );
+        $client->request('POST', '/test/', array_replace(['method' => 'test/method'], $args));
     }
 
     public function getExceptionTestData()
