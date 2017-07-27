@@ -3,6 +3,8 @@ services:
     class: Bankiru\Api\Rpc\Command\RouterDebugCommand
     arguments:
     - "@rpc_server.router.collection"
+    tags:
+    - "console.command"
 
   rpc_server.controller_resolver:
     class: Bankiru\Api\Rpc\Routing\ControllerResolver\ControllerResolver
