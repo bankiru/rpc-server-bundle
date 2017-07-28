@@ -4,7 +4,7 @@ services:
     arguments:
     - "@rpc_server.router.collection"
     tags:
-    - "console.command"
+    - { name: "console.command" }
 
   rpc_server.controller_resolver:
     class: Bankiru\Api\Rpc\Routing\ControllerResolver\ControllerResolver
