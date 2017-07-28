@@ -16,10 +16,10 @@
     "symfony/http-kernel": "~2.7 || ~3.0 || ~4.0",
     "symfony/yaml": "~2.7 || ~3.0 || ~4.0",
     "symfony/dependency-injection": "~2.7 || ~3.0 || ~4.0",
-    "doctrine/annotations": "~1.2",
     "scaytrase/rpc-common": "~1.0"
   },
   "require-dev": {
+    "doctrine/annotations": "~1.2",
     "doctrine/common": "~2.2",
     "sensio/framework-extra-bundle": "~3.0",
     "symfony/expression-language": "~2.7 || ~3.0 || ~4.0",
@@ -31,6 +31,7 @@
     "phpunit/phpunit": "^4.8.35 || ^5.4 || ^6.0"
   },
   "suggest": {
+    "doctrine/annotations": "For RPC method annotations",
     "sensio/framework-extra-bundle": "For controller annotations",
     "symfony/expression-language": "For evaluating security expressions",
     "symfony/console": "For using debug console command",
