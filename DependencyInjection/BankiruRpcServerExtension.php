@@ -3,9 +3,11 @@
 namespace Bankiru\Api\Rpc\DependencyInjection;
 
 use Bankiru\Api\Rpc\Cache\RouterCacheWarmer;
+use Bankiru\Api\Rpc\Listener\ExceptionListener;
 use Bankiru\Api\Rpc\Listener\RouterListener;
 use Bankiru\Api\Rpc\Routing\ResourceMethodCollectionLoader;
 use Bankiru\Api\Rpc\Routing\Router;
+use Bankiru\Api\Rpc\RpcEvents;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\Config\FileLocator;
@@ -37,6 +39,17 @@ final class BankiruRpcServerExtension extends Extension
                 $loader->load('security.yml');
             }
         }
+
+        $container
+            ->register('rpc_server.exception_listener', ExceptionListener::class)
+            ->setArguments([$config['debug'], new Reference('logger')])
+            ->addTag(
+                'kernel.event_listener',
+                [
+                    'event'  => RpcEvents::EXCEPTION,
+                    'method' => 'onException',
+                ]
+            );
 
         $this->configureRouter($config['router'], $container);
     }
