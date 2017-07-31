@@ -17,7 +17,6 @@ final class AttributesHelper
         return [
             '_route'                => $name,
             '_controller'           => $method->getController(),
-            '_with_default_context' => $method->includeDefaultContext(),
             '_context'              => $method->getContext(),
         ];
     }
