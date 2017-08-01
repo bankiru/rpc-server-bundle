@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -42,7 +43,7 @@ final class BankiruRpcServerExtension extends Extension
 
         $container
             ->register('rpc_server.exception_listener', ExceptionListener::class)
-            ->setArguments([$config['debug'], new Reference('logger')])
+            ->setArguments([$config['debug'], new Reference('logger', ContainerInterface::NULL_ON_INVALID_REFERENCE)])
             ->addTag(
                 'kernel.event_listener',
                 [
