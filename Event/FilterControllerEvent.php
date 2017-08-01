@@ -2,8 +2,8 @@
 
 namespace Bankiru\Api\Rpc\Event;
 
-use Bankiru\Api\Rpc\Http\RequestInterface;
 use Bankiru\Api\Rpc\RpcEvent;
+use Bankiru\Api\Rpc\RpcRequestInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class FilterControllerEvent extends RpcEvent
@@ -13,11 +13,12 @@ class FilterControllerEvent extends RpcEvent
 
     /**
      * FilterControllerEvent constructor.
+     *
      * @param HttpKernelInterface $kernel
-     * @param RequestInterface $request
-     * @param string|callable $controller
+     * @param RpcRequestInterface $request
+     * @param string|callable     $controller
      */
-    public function __construct(HttpKernelInterface $kernel, RequestInterface $request, $controller)
+    public function __construct(HttpKernelInterface $kernel, RpcRequestInterface $request, $controller)
     {
         parent::__construct($kernel, $request);
         $this->controller = $controller;

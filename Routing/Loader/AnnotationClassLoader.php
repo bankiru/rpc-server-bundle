@@ -24,7 +24,6 @@ class AnnotationClassLoader implements LoaderInterface
         $this->reader = $reader;
     }
 
-
     /** {@inheritdoc} */
     public function load($class, $type = null)
     {
@@ -48,7 +47,7 @@ class AnnotationClassLoader implements LoaderInterface
             if (!$method->isPublic()) {
                 continue;
             }
-            
+
             foreach ($this->reader->getMethodAnnotations($method) as $annot) {
                 if ($annot instanceof Method) {
                     $this->addRoute($collection, $annot, $parents, $class, $method);
@@ -59,6 +58,24 @@ class AnnotationClassLoader implements LoaderInterface
         $collection->addPrefix($parents['method']);
 
         return $collection;
+    }
+
+    /** {@inheritdoc} */
+    public function supports($resource, $type = null)
+    {
+        return is_string($resource) &&
+               preg_match('/^(?:\\\\?[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)+$/', $resource) &&
+               (!$type || 'annotation' === $type);
+    }
+
+    /** {@inheritdoc} */
+    public function getResolver()
+    {
+    }
+
+    /** {@inheritdoc} */
+    public function setResolver($resolver)
+    {
     }
 
     protected function getParentAnnotations(\ReflectionClass $class)
@@ -89,35 +106,16 @@ class AnnotationClassLoader implements LoaderInterface
         array $parents,
         \ReflectionClass $class,
         \ReflectionMethod $method
-    )
-    {
+    ) {
         $collection->add(
             $annot->getMethod(),
             new Route(
                 $annot->getMethod(),
                 $class->getName() . '::' . $method->getName(),
                 array_merge($parents['context'], $annot->getContext()),
-                $parents['default_context'] && $annot->isDefaultContext(),
+                $parents['default_context'] && $annot->withDefaultContext(),
                 $annot->isInherit()
             )
         );
-    }
-
-    /** {@inheritdoc} */
-    public function supports($resource, $type = null)
-    {
-        return is_string($resource) &&
-               preg_match('/^(?:\\\\?[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)+$/', $resource) &&
-               (!$type || 'annotation' === $type);
-    }
-
-    /** {@inheritdoc} */
-    public function getResolver()
-    {
-    }
-
-    /** {@inheritdoc} */
-    public function setResolver($resolver)
-    {
     }
 }

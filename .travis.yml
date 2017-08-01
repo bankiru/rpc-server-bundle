@@ -1,36 +1,48 @@
 language: php
 
 php:
-  - 5.5
-  - 5.6
-  - 7
   - nightly
-  - hhvm
+  - 7.1
+  - 7
+  - 5.6
+  - 5.5
 
 env:
-  - SYMFONY_VERSION='2.7.*' deps='no'
-  - SYMFONY_VERSION='2.8.*' deps='no'
-  - SYMFONY_VERSION='3.0.*' deps='no'
-  - SYMFONY_VERSION='3.1.*' deps='no'
-  - SYMFONY_VERSION='~3.2@dev' deps='no'
+  - PACKAGES='symfony/symfony=~3.4' STABILITY=dev
+  - PACKAGES='symfony/symfony=3.3.*'
+  - PACKAGES='symfony/symfony=3.2.*'
+  - PACKAGES='symfony/symfony=2.8.*'
+  - PACKAGES='symfony/symfony=2.7.*'
+
+## Run on container environment
+sudo: false
+
+## Cache composer bits
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 matrix:
-    include:
-      - php: 5.5
-        env: SYMFONY_VERSION='2.7.*' deps='low'
+  include:
+    - php: 7.1
+      env: PACKAGES='symfony/symfony=~4.0' STABILITY=dev
+    - php: nightly
+      env: PACKAGES='symfony/symfony=~4.0' STABILITY=dev
 
-    allow_failures:
-        - php: hhvm
-        - php: nightly
+  allow_failures:
+    - php: nightly
+    - env: PACKAGES='symfony/symfony=~4.0' STABILITY=dev
 
 before_install:
   - travis_retry composer self-update
 
 install:
-    - composer require --no-update symfony/symfony=${SYMFONY_VERSION}
-    - if [ "$deps" = "no" ]; then composer --prefer-source install; fi;
-    - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; fi;
+  - composer require --no-update ${PACKAGES}
+  - if [ "$STABILITY" = "dev" ]; then composer config minimum-stability dev; fi;
+  - if [ "$deps" = "no" ] || [ -z "$deps" ]; then composer --prefer-source install; fi;
+  - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; fi;
 
 script:
+  - rm -rf build
   - mkdir -p build
   - vendor/bin/phpunit --colors -c phpunit.xml

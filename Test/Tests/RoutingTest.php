@@ -1,11 +1,11 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests;
+namespace Bankiru\Api\Rpc\Test\Tests;
 
 use Bankiru\Api\Rpc\Routing\MethodCollection;
 use Bankiru\Api\Rpc\Routing\Router;
-use Bankiru\Api\Rpc\Tests\Fixtures\Kernel;
-use Bankiru\Api\Rpc\Tests\Fixtures\Rpc\TestController;
+use Bankiru\Api\Rpc\Test\Kernel;
+use Bankiru\Api\Rpc\Test\Rpc\TestController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\RequestContext;
 
@@ -28,10 +28,10 @@ class RoutingTest extends WebTestCase
     {
         $client = self::createClient();
         /** @var Router $router */
-        $router = $client->getContainer()->get('rpc.endpoint_router.test');
+        $router = $client->getContainer()->get('rpc_server.endpoint_router.test');
         self::assertNotNull($router);
         /** @var MethodCollection $collection */
-        $collection = $router->getCollection();
+        $collection = $router->getMethodCollection();
         self::assertNotNull($router);
         self::assertInstanceOf(MethodCollection::class, $collection);
 

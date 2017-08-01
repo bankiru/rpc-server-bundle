@@ -82,6 +82,21 @@ class YamlLoader extends FileLoader
     }
 
     /**
+     * Returns whether this class supports the given resource.
+     *
+     * @param mixed       $resource A resource
+     * @param string|null $type     The resource type or null if unknown
+     *
+     * @return bool True if this class supports the given resource, false otherwise
+     */
+    public function supports($resource, $type = null)
+    {
+        return is_string($resource) &&
+               in_array(pathinfo($resource, PATHINFO_EXTENSION), ['yml', 'yaml'], true) &&
+               (!$type || 'yaml' === $type);
+    }
+
+    /**
      * Validates the route configuration.
      *
      * @param array  $config A resource config
@@ -181,20 +196,5 @@ class YamlLoader extends FileLoader
         );
 
         $collection->add($name, $route);
-    }
-
-    /**
-     * Returns whether this class supports the given resource.
-     *
-     * @param mixed       $resource A resource
-     * @param string|null $type     The resource type or null if unknown
-     *
-     * @return bool True if this class supports the given resource, false otherwise
-     */
-    public function supports($resource, $type = null)
-    {
-        return is_string($resource) &&
-               in_array(pathinfo($resource, PATHINFO_EXTENSION), ['yml', 'yaml'], true) &&
-               (!$type || 'yaml' === $type);
     }
 }

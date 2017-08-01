@@ -1,13 +1,15 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests\Fixtures;
+namespace Bankiru\Api\Rpc\Test;
 
-use Bankiru\Api\Rpc\RpcBundle;
+use Bankiru\Api\Rpc\BankiruRpcServerBundle;
+use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
-class Kernel extends BaseKernel
+final class Kernel extends BaseKernel
 {
     public function __construct($environment, $debug)
     {
@@ -18,21 +20,28 @@ class Kernel extends BaseKernel
 
     public function getCacheDir()
     {
-        return __DIR__ . '/../../build/cache/';
+        return __DIR__ . '/../../build/' . $this->getName() . '/cache';
     }
 
     public function getLogDir()
     {
-        return __DIR__ . '/../../build/log/';
+        return __DIR__ . '/../../build/' . $this->getName() . '/log';
     }
 
     /** {@inheritdoc} */
     public function registerBundles()
     {
         return [
+            new SensioFrameworkExtraBundle(),
             new FrameworkBundle(),
-            new RpcBundle(),
+            new BankiruRpcServerBundle(),
+            new SecurityBundle(),
         ];
+    }
+
+    public function getName()
+    {
+        return 'rpc_test';
     }
 
     /** {@inheritdoc} */

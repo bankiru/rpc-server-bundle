@@ -1,13 +1,13 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests\Fixtures\Rpc;
+namespace Bankiru\Api\Rpc\Test\Rpc;
 
-use Bankiru\Api\Rpc\Impl\Response;
 use Bankiru\Api\Rpc\Routing\Annotation\Method;
+use Bankiru\Api\Rpc\Test\Impl\Response;
 use ScayTrase\Api\Rpc\RpcRequestInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class RpcImplController extends Controller
+final class RpcImplController extends Controller
 {
     /**
      * @param string              $noDefault

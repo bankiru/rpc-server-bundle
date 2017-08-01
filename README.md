@@ -10,7 +10,7 @@
 
 # HTTP RPC Server bundle
 
-This bundle provides default controller realisation to handle RPC 
+This bundle provides default controller realization to handle RPC 
 requests which come to the application via HTTP requests
  
 ## Implementations
@@ -32,7 +32,7 @@ To enable HTTP endpoint you should enable custom endpoint router loader via the 
 
 ```yaml
 # app/config/routing.yml
-rpc:
+rpc_server:
   resource: .
   type: endpoint
 
@@ -46,13 +46,13 @@ configured vua config
 Basic endpoint configuration looks like
 
 ```yaml
-rpc:
+rpc_server:
   router:
     endpoints:
       my-public-endpoint:
         path: /
         defaults:
-          _controller: JsonRpcBundle:JsonRpc:jsonRpc
+          _controller: BankiruJsonRpcServerBundle:JsonRpc:jsonRpc
           _format: json
         context: Default
         resources:
@@ -79,7 +79,7 @@ my_bundle:
   type: annotation
 ```
 
-Different resource types are supported. Built-in are
+Different resource types are supported
 
 #### Annotation 
 

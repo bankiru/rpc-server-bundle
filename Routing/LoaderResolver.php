@@ -2,19 +2,19 @@
 
 namespace Bankiru\Api\Rpc\Routing;
 
-class LoaderResolver implements LoaderResolverInterface
+final class LoaderResolver implements LoaderResolverInterface
 {
     /**
      * @var LoaderInterface[] An array of LoaderInterface objects
      */
-    private $loaders = array();
+    private $loaders = [];
 
     /**
      * Constructor.
      *
      * @param LoaderInterface[] $loaders An array of loaders
      */
-    public function __construct(array $loaders = array())
+    public function __construct(array $loaders = [])
     {
         foreach ($loaders as $loader) {
             $this->addLoader($loader);

@@ -1,0 +1,7 @@
+services:
+  rpc_server.listeners.controller_listener:
+    class: Bankiru\Api\Rpc\Listener\ControllerListener
+    arguments:
+    - "@annotation_reader"
+    tags:
+    - { name: kernel.event_subscriber }

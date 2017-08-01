@@ -14,8 +14,6 @@ class Route
     private $defaultContext;
     /** @var bool */
     private $inheritContext;
-    /** @var array */
-    private $options = [];
 
     /**
      * Route constructor.
@@ -32,8 +30,7 @@ class Route
         array $context,
         $defaultContext = true,
         $inheritContext = true
-    )
-    {
+    ) {
         $this->method         = $method;
         $this->controller     = $controller;
         $this->context        = $context;

@@ -8,14 +8,26 @@ services:
   logger:
     class: Psr\Log\NullLogger
 
-rpc:
+security:
+  providers:
+    in_memory:
+      memory: ~
+
+  firewalls:
+    main:
+      anonymous: ~
+
+  access_control:
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+rpc_server:
   router:
     endpoints:
       test:
         path: /test/
         context: [Default, test]
         defaults:
-          _controller: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\TestController::rpcAction
+          _controller: Bankiru\Api\Rpc\Test\Rpc\TestController::rpcAction
           _format: json
         resources:
           - '%kernel.root_dir%/config/rpc_routing.yml'
@@ -24,6 +36,6 @@ rpc:
         path: /test/
         context: test
         defaults:
-          _controller: Bankiru\Api\Rpc\Tests\Fixtures\Rpc\TestController::rpcAction
+          _controller: Bankiru\Api\Rpc\Test\Rpc\TestController::rpcAction
           _format: json
         resources: []

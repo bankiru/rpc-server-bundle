@@ -32,7 +32,13 @@ class InvalidMethodParametersException extends \InvalidArgumentException impleme
     public static function typeMismatch($method, $name, $expected, $actual)
     {
         return new static(
-            sprintf('Parameter %s for method "%s" has invalid type: %s given, %s expected', $name, $method, $actual, $expected)
+            sprintf(
+                'Parameter %s for method "%s" has invalid type: %s given, %s expected',
+                $name,
+                $method,
+                $actual,
+                $expected
+            )
         );
     }
 }

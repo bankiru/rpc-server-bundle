@@ -1,14 +1,14 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Tests\Fixtures\Rpc;
+namespace Bankiru\Api\Rpc\Test\Rpc;
 
 use Bankiru\Api\Rpc\Controller\RpcController;
-use Bankiru\Api\Rpc\Impl\Request as RpcRequest;
 use Bankiru\Api\Rpc\Routing\ControllerResolver\ControllerResolverInterface;
+use Bankiru\Api\Rpc\Test\Impl\Request as RpcRequest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class TestController extends RpcController
+final class TestController extends RpcController
 {
     public function rpcAction(Request $request)
     {
@@ -27,6 +27,6 @@ class TestController extends RpcController
      */
     protected function getResolver()
     {
-        return $this->get('rpc.controller_resolver');
+        return $this->get('rpc_server.controller_resolver');
     }
 }

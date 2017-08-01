@@ -10,7 +10,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-
     /**
      * Generates the configuration tree builder.
      *
@@ -19,7 +18,10 @@ final class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $builder = new TreeBuilder();
-        $root    = $builder->root('rpc');
+        $root    = $builder->root('rpc_server');
+
+        $root->children()->booleanNode('debug')->defaultValue('%kernel.debug%');
+
         $this->configureRouter($root->children()->arrayNode('router'));
 
         return $builder;

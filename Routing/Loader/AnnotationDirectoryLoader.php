@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Bankiru\Api\Rpc\Routing\Loader;
 
 use Bankiru\Api\Rpc\Routing\MethodCollection;
@@ -30,10 +39,12 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
                 \RecursiveIteratorIterator::LEAVES_ONLY
             )
         );
-        usort($files,
+        usort(
+            $files,
             function (\SplFileInfo $a, \SplFileInfo $b) {
                 return (string)$a > (string)$b ? 1 : -1;
-            });
+            }
+        );
 
         foreach ($files as $file) {
             if (!$file->isFile() || '.php' !== substr($file->getFilename(), -4)) {

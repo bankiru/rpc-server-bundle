@@ -1,11 +1,11 @@
 <?php
 
-namespace Bankiru\Api\Rpc\Impl;
+namespace Bankiru\Api\Rpc\Test\Impl;
 
-use Bankiru\Api\Rpc\Http\RequestInterface;
+use Bankiru\Api\Rpc\RpcRequestInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-final class Request implements RequestInterface
+final class Request implements RpcRequestInterface
 {
     /** @var  ParameterBag */
     private $attributes;

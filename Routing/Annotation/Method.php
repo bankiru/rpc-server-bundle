@@ -93,7 +93,7 @@ class Method
     /**
      * @return boolean
      */
-    public function isDefaultContext()
+    public function withDefaultContext()
     {
         return $this->defaultContext;
     }

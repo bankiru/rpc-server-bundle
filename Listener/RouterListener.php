@@ -32,14 +32,6 @@ final class RouterListener
         }
 
         $method = $event->getRequest()->getMethod();
-        $route  = $this->router->getCollection()->match($method);
-        if (null === $route) {
-            return;
-        }
-        
-        $event->getRequest()->getAttributes()->set('_route', $route);
-        $event->getRequest()->getAttributes()->set('_controller', $route->getController());
-        $event->getRequest()->getAttributes()->set('_with_default_context', $route->includeDefaultContext());
-        $event->getRequest()->getAttributes()->set('_context', $route->getContext());
+        $event->getRequest()->getAttributes()->replace($this->router->match($method));
     }
 }

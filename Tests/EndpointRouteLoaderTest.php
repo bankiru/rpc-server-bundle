@@ -3,10 +3,11 @@
 namespace Bankiru\Api\Rpc\Tests;
 
 use Bankiru\Api\Rpc\Http\Routing\EndpointRouteLoader;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Routing\RouteCollection;
 
-class EndpointRouteLoaderTest extends \PHPUnit_Framework_TestCase
+class EndpointRouteLoaderTest extends TestCase
 {
     public function testLoader()
     {

@@ -2,7 +2,6 @@
 
 namespace Bankiru\Api\Rpc;
 
-use Bankiru\Api\Rpc\Http\RequestInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -10,16 +9,16 @@ class RpcEvent extends Event
 {
     /** @var  HttpKernelInterface */
     private $kernel;
-    /** @var  RequestInterface */
+    /** @var  RpcRequestInterface */
     private $request;
 
     /**
      * RpcEvent constructor.
      *
-     * @param HttpKernelInterface  $kernel
-     * @param RequestInterface $request
+     * @param HttpKernelInterface $kernel
+     * @param RpcRequestInterface $request
      */
-    public function __construct(HttpKernelInterface $kernel, RequestInterface $request)
+    public function __construct(HttpKernelInterface $kernel, RpcRequestInterface $request)
     {
         $this->kernel  = $kernel;
         $this->request = $request;
@@ -34,7 +33,7 @@ class RpcEvent extends Event
     }
 
     /**
-     * @return RequestInterface
+     * @return RpcRequestInterface
      */
     public function getRequest()
     {
